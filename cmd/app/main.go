@@ -4,17 +4,15 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-
-	"github.com/StewardMcCormick/go-job-queue/cmd/app"
 )
 
 func main() {
-	a, err := app.Init()
+	app, err := Init()
 	if err != nil {
 		panic(err)
 	}
 
-	err = a.Run()
+	err = app.Run()
 	if err != nil {
 		panic(err)
 	}
@@ -23,7 +21,7 @@ func main() {
 	signal.Notify(sig, syscall.SIGTERM, syscall.SIGINT)
 
 	<-sig
-	err = a.Shutdown()
+	err = app.Shutdown()
 	if err != nil {
 		panic(err)
 	}

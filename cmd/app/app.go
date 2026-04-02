@@ -1,7 +1,6 @@
-package app
+package main
 
-type App struct {
-}
+type App struct{}
 
 func Init() (*App, error) {
 	return &App{}, nil
