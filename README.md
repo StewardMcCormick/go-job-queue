@@ -138,10 +138,10 @@ type TaskType string
 type Priority string
 
 const (
-	PriorityImmediate Priority = "immediate"
-	PriorityHigh Priority = "high"
-	PriorityNormal Priority = "normal"
-	PriorityBackground Priority = "background" 
+  PriorityImmediate  Priority = "immediate"
+  PriorityHigh       Priority = "high"
+  PriorityNormal     Priority = "normal"
+  PriorityBackground Priority = "background"
 )
 
 type TaskPayload map[string]interface{}
@@ -149,49 +149,49 @@ type TaskPayload map[string]interface{}
 type TaskStatus string
 
 const (
-	TaskStatusCreated TaskStatus = "created"
-	TaskStatusPending TaskStatus = "pending"
-	TaskStatusRetry TaskStatus = "retry"
-	TaskStatusFailed TaskStatus = "failed"
-	TaskStatusCancelled TaskStatus = "cancelled"
-	TaskStatusRunning TaskStatus = "running"
-	TaskStatusCompleted TaskStatus = "completed"
-	TaskStatusMiddesDeadline TaskStatus = "missed_deadline"
+  TaskStatusCreated        TaskStatus = "created"
+  TaskStatusPending        TaskStatus = "pending"
+  TaskStatusRetry          TaskStatus = "retry"
+  TaskStatusFailed         TaskStatus = "failed"
+  TaskStatusCancelled      TaskStatus = "cancelled"
+  TaskStatusRunning        TaskStatus = "running"
+  TaskStatusCompleted      TaskStatus = "completed"
+  TaskStatusMiddesDeadline TaskStatus = "missed_deadline"
 )
 
 type WorkerStatus string
 
 const (
-	WorkerStatusRegistered WorkerStatus = "registered"
-	WorkerStatusWorking WorkerStatus = "working"
-	WorkerStatusDead WorkerStatus = "dead"
-	WorkerStatusUnregistered WorkerStatus = "unregistered"
+  WorkerStatusRegistered   WorkerStatus = "registered"
+  WorkerStatusWorking      WorkerStatus = "working"
+  WorkerStatusDead         WorkerStatus = "dead"
+  WorkerStatusUnregistered WorkerStatus = "unregistered"
 )
 
 type Task struct {
-	Id string
-	Status TaskStatus
-	Payload TaskPayload
-	Type TaskType
-	Priority Priority
-	RetryNumber uint8
-	Deadline *time.Time
-	RetryAfterDeadline bool
-	Timeout time.Duration
-	DependsOn []string
-	DependencyFor []string
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	StartedAt time.Time
-	CompletedAt time.Time
+  Id                 string
+  Status             TaskStatus
+  Payload            TaskPayload
+  Type               TaskType
+  Priority           Priority
+  RetryNumber        uint8
+  Deadline           *time.Time
+  RetryAfterDeadline bool
+  Timeout            time.Duration
+  DependsOn          []string
+  DependencyFor      []string
+  CreatedAt          time.Time
+  UpdatedAt          time.Time
+  StartedAt          time.Time
+  CompletedAt        time.Time
 }
 
 type Worker struct {
-	Id string
-	Addr string
-	ForTaskType TaskType
-	Concurrency uint32
-	Stream grpc.ServerStream
-	Status WorkerStatus
+  Id          string
+  Addr        string
+  ForTaskType TaskType
+  Concurrency uint32
+  Stream      grpc.ServerStream
+  Status      WorkerStatus
 }
 ```
