@@ -1,28 +1,36 @@
 package main
 
 import (
+	"log"
 	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/StewardMcCormick/go-job-queue/config"
 )
 
 func main() {
-	app, err := Init()
+	cfg, err := config.InitConfig()
 	if err != nil {
-		panic(err)
+		log.Fatalf("Cannot load configuration: %v", err)
 	}
 
-	err = app.Run()
+	app, err := InitApp(cfg)
 	if err != nil {
-		panic(err)
+		log.Fatalf("Cannot init application: %v", err)
 	}
+
+	app.Run()
 
 	sig := make(chan os.Signal, 2)
-	signal.Notify(sig, syscall.SIGTERM, syscall.SIGINT)
+	signal.Notify(sig, syscall.SIGINT, syscall.SIGTERM)
 
 	<-sig
+	log.Print("[SHUTDOWN] Start shutting down...")
 	err = app.Shutdown()
 	if err != nil {
-		panic(err)
+		log.Fatalf("[SHUTDOWN] Shoutdown error: %v", err)
 	}
+	log.Print("[SHUTDOWN] Server was stop")
+	log.Print("[SHUTDOWN] Shutdown completed")
 }

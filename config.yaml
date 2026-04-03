@@ -1,0 +1,8 @@
+app:
+  name: "Stw-Job-Queue"
+  version: "v1.0.0"
+  env: "dev"
+
+server:
+  host: "localhost"
+  port: "50051"
