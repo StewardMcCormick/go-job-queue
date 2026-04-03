@@ -20,7 +20,7 @@ type gRPCServer struct {
 	jobQueueHandler pb.JobQueueServiceServer
 }
 
-func NewServer(cfg Config) (gRPCServer, error) {
+func NewServer(cfg Config, jobQueueHandler pb.JobQueueServiceServer) (gRPCServer, error) {
 	addr := fmt.Sprintf("%s:%s", cfg.Host, cfg.Port)
 	lis, err := net.Listen("tcp", addr)
 	if err != nil {
@@ -30,9 +30,10 @@ func NewServer(cfg Config) (gRPCServer, error) {
 	server := grpc.NewServer()
 
 	return gRPCServer{
-		listener: lis,
-		server:   server,
-		addr:     addr,
+		listener:        lis,
+		server:          server,
+		addr:            addr,
+		jobQueueHandler: jobQueueHandler,
 	}, nil
 }
 

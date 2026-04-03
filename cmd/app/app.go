@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/StewardMcCormick/go-job-queue/config"
+	"github.com/StewardMcCormick/go-job-queue/internal/api/handlers"
 	"github.com/StewardMcCormick/go-job-queue/internal/api/server"
 )
 
@@ -29,7 +30,9 @@ func InitApp(cfg config.Config) (*App, error) {
 }
 
 func (a *App) InitServer(cfg server.Config) error {
-	s, err := server.NewServer(cfg)
+	jobQueueHandler := handlers.NewHandler()
+
+	s, err := server.NewServer(cfg, jobQueueHandler)
 	if err != nil {
 		return err
 	}
@@ -43,7 +46,7 @@ func (a *App) Run() {
 		log.Printf("[START] Server starts on: %s", a.server.Addr())
 		err := a.server.Run()
 		if err != nil {
-			panic(err)
+			log.Fatalf("[START] Server start error: %v", err)
 		}
 	}()
 }
