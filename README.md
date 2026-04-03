@@ -132,66 +132,32 @@ Immediate ──▶ High ──▶ Normal ──▶ Background
 
 
 ## Domain Layer:
-```Go
-type TaskType string
+```protobuf
+syntax = "proto3";
 
-type Priority string
+import "google/protobuf/timestamp.proto";
 
-const (
-  PriorityImmediate  Priority = "immediate"
-  PriorityHigh       Priority = "high"
-  PriorityNormal     Priority = "normal"
-  PriorityBackground Priority = "background"
-)
-
-type TaskPayload map[string]interface{}
-
-type TaskStatus string
-
-const (
-  TaskStatusCreated        TaskStatus = "created"
-  TaskStatusPending        TaskStatus = "pending"
-  TaskStatusRetry          TaskStatus = "retry"
-  TaskStatusFailed         TaskStatus = "failed"
-  TaskStatusCancelled      TaskStatus = "cancelled"
-  TaskStatusRunning        TaskStatus = "running"
-  TaskStatusCompleted      TaskStatus = "completed"
-  TaskStatusMiddesDeadline TaskStatus = "missed_deadline"
-)
-
-type WorkerStatus string
-
-const (
-  WorkerStatusRegistered   WorkerStatus = "registered"
-  WorkerStatusWorking      WorkerStatus = "working"
-  WorkerStatusDead         WorkerStatus = "dead"
-  WorkerStatusUnregistered WorkerStatus = "unregistered"
-)
-
-type Task struct {
-  Id                 string
-  Status             TaskStatus
-  Payload            TaskPayload
-  Type               TaskType
-  Priority           Priority
-  RetryNumber        uint8
-  Deadline           *time.Time
-  RetryAfterDeadline bool
-  Timeout            time.Duration
-  DependsOn          []string
-  DependencyFor      []string
-  CreatedAt          time.Time
-  UpdatedAt          time.Time
-  StartedAt          time.Time
-  CompletedAt        time.Time
+message Task {
+    string id = 1;
+    string status = 2;
+    string priority = 3;
+    string type = 4;
+    map<string, bytes> payload = 5;
+    uint32 retry_number = 6;
+    google.protobuf.Timestamp deadline = 7;
+    repeated string depends_on = 8;
+    repeated string dependency_for = 9;
+    google.protobuf.Timestamp created_at = 10;
+    google.protobuf.Timestamp updated_at = 11;
+    google.protobuf.Timestamp started_at = 12;
+    google.protobuf.Timestamp completed_at = 13;
 }
 
-type Worker struct {
-  Id          string
-  Addr        string
-  ForTaskType TaskType
-  Concurrency uint32
-  Stream      grpc.ServerStream
-  Status      WorkerStatus
+message Worker {
+    string id = 1;
+    string addr = 2;
+    string task_type = 3;
+    uint32 concurrency = 4;
+    string status = 5;
 }
 ```
