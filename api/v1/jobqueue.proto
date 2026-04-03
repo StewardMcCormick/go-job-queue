@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package jobqueue.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./gen/go/api/v1";
+
+message Task {
+    string id = 1;
+    string status = 2;
+    string priority = 3;
+    string type = 4;
+    map<string, bytes> payload = 5;
+    uint32 retry_number = 6;
+    google.protobuf.Timestamp deadline = 7;
+    repeated string depends_on = 8;
+    repeated string dependency_for = 9;
+    google.protobuf.Timestamp created_at = 10;
+    google.protobuf.Timestamp updated_at = 11;
+    google.protobuf.Timestamp started_at = 12;
+    google.protobuf.Timestamp completed_at = 13;
+}
+
+message Worker {
+    string id = 1;
+    string addr = 2;
+    string task_type = 3;
+    uint32 concurrency = 4;
+    string status = 5;
+}
