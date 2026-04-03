@@ -1,5 +1,10 @@
 package main
 
+type GRPCServer interface {
+	Run() error
+	Stop() error
+}
+
 type App struct{}
 
 func Init() (*App, error) {

@@ -4,7 +4,7 @@
 // 	protoc        v7.34.1
 // source: api/v1/jobqueue.proto
 
-package v1
+package jobqueue
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -21,6 +21,94 @@ const (
 	// Verify that runtime/protoimpl is sufficiently up-to-date.
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
+
+type HealthRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Num           int32                  `protobuf:"varint,1,opt,name=num,proto3" json:"num,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *HealthRequest) Reset() {
+	*x = HealthRequest{}
+	mi := &file_api_v1_jobqueue_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *HealthRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HealthRequest) ProtoMessage() {}
+
+func (x *HealthRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_v1_jobqueue_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HealthRequest.ProtoReflect.Descriptor instead.
+func (*HealthRequest) Descriptor() ([]byte, []int) {
+	return file_api_v1_jobqueue_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *HealthRequest) GetNum() int32 {
+	if x != nil {
+		return x.Num
+	}
+	return 0
+}
+
+type HealthResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	RepeatedNum   int32                  `protobuf:"varint,1,opt,name=repeated_num,json=repeatedNum,proto3" json:"repeated_num,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *HealthResponse) Reset() {
+	*x = HealthResponse{}
+	mi := &file_api_v1_jobqueue_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *HealthResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HealthResponse) ProtoMessage() {}
+
+func (x *HealthResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_api_v1_jobqueue_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HealthResponse.ProtoReflect.Descriptor instead.
+func (*HealthResponse) Descriptor() ([]byte, []int) {
+	return file_api_v1_jobqueue_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *HealthResponse) GetRepeatedNum() int32 {
+	if x != nil {
+		return x.RepeatedNum
+	}
+	return 0
+}
 
 type Task struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -43,7 +131,7 @@ type Task struct {
 
 func (x *Task) Reset() {
 	*x = Task{}
-	mi := &file_api_v1_jobqueue_proto_msgTypes[0]
+	mi := &file_api_v1_jobqueue_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -55,7 +143,7 @@ func (x *Task) String() string {
 func (*Task) ProtoMessage() {}
 
 func (x *Task) ProtoReflect() protoreflect.Message {
-	mi := &file_api_v1_jobqueue_proto_msgTypes[0]
+	mi := &file_api_v1_jobqueue_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -68,7 +156,7 @@ func (x *Task) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Task.ProtoReflect.Descriptor instead.
 func (*Task) Descriptor() ([]byte, []int) {
-	return file_api_v1_jobqueue_proto_rawDescGZIP(), []int{0}
+	return file_api_v1_jobqueue_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *Task) GetId() string {
@@ -175,7 +263,7 @@ type Worker struct {
 
 func (x *Worker) Reset() {
 	*x = Worker{}
-	mi := &file_api_v1_jobqueue_proto_msgTypes[1]
+	mi := &file_api_v1_jobqueue_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -187,7 +275,7 @@ func (x *Worker) String() string {
 func (*Worker) ProtoMessage() {}
 
 func (x *Worker) ProtoReflect() protoreflect.Message {
-	mi := &file_api_v1_jobqueue_proto_msgTypes[1]
+	mi := &file_api_v1_jobqueue_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -200,7 +288,7 @@ func (x *Worker) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Worker.ProtoReflect.Descriptor instead.
 func (*Worker) Descriptor() ([]byte, []int) {
-	return file_api_v1_jobqueue_proto_rawDescGZIP(), []int{1}
+	return file_api_v1_jobqueue_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *Worker) GetId() string {
@@ -242,7 +330,11 @@ var File_api_v1_jobqueue_proto protoreflect.FileDescriptor
 
 const file_api_v1_jobqueue_proto_rawDesc = "" +
 	"\n" +
-	"\x15api/v1/jobqueue.proto\x12\vjobqueue.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe5\x04\n" +
+	"\x15api/v1/jobqueue.proto\x12\vjobqueue.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"!\n" +
+	"\rHealthRequest\x12\x10\n" +
+	"\x03num\x18\x01 \x01(\x05R\x03num\"3\n" +
+	"\x0eHealthResponse\x12!\n" +
+	"\frepeated_num\x18\x01 \x01(\x05R\vrepeatedNum\"\xe5\x04\n" +
 	"\x04Task\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x16\n" +
 	"\x06status\x18\x02 \x01(\tR\x06status\x12\x1a\n" +
@@ -270,7 +362,9 @@ const file_api_v1_jobqueue_proto_rawDesc = "" +
 	"\x04addr\x18\x02 \x01(\tR\x04addr\x12\x1b\n" +
 	"\ttask_type\x18\x03 \x01(\tR\btaskType\x12 \n" +
 	"\vconcurrency\x18\x04 \x01(\rR\vconcurrency\x12\x16\n" +
-	"\x06status\x18\x05 \x01(\tR\x06statusB\x11Z\x0f./gen/go/api/v1b\x06proto3"
+	"\x06status\x18\x05 \x01(\tR\x06status2T\n" +
+	"\x0fJobQueueService\x12A\n" +
+	"\x06Health\x12\x1a.jobqueue.v1.HealthRequest\x1a\x1b.jobqueue.v1.HealthResponseB\x1aZ\x18./gen/go/api/v1;jobqueueb\x06proto3"
 
 var (
 	file_api_v1_jobqueue_proto_rawDescOnce sync.Once
@@ -284,22 +378,26 @@ func file_api_v1_jobqueue_proto_rawDescGZIP() []byte {
 	return file_api_v1_jobqueue_proto_rawDescData
 }
 
-var file_api_v1_jobqueue_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_api_v1_jobqueue_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_api_v1_jobqueue_proto_goTypes = []any{
-	(*Task)(nil),                  // 0: jobqueue.v1.Task
-	(*Worker)(nil),                // 1: jobqueue.v1.Worker
-	nil,                           // 2: jobqueue.v1.Task.PayloadEntry
-	(*timestamppb.Timestamp)(nil), // 3: google.protobuf.Timestamp
+	(*HealthRequest)(nil),         // 0: jobqueue.v1.HealthRequest
+	(*HealthResponse)(nil),        // 1: jobqueue.v1.HealthResponse
+	(*Task)(nil),                  // 2: jobqueue.v1.Task
+	(*Worker)(nil),                // 3: jobqueue.v1.Worker
+	nil,                           // 4: jobqueue.v1.Task.PayloadEntry
+	(*timestamppb.Timestamp)(nil), // 5: google.protobuf.Timestamp
 }
 var file_api_v1_jobqueue_proto_depIdxs = []int32{
-	2, // 0: jobqueue.v1.Task.payload:type_name -> jobqueue.v1.Task.PayloadEntry
-	3, // 1: jobqueue.v1.Task.deadline:type_name -> google.protobuf.Timestamp
-	3, // 2: jobqueue.v1.Task.created_at:type_name -> google.protobuf.Timestamp
-	3, // 3: jobqueue.v1.Task.updated_at:type_name -> google.protobuf.Timestamp
-	3, // 4: jobqueue.v1.Task.started_at:type_name -> google.protobuf.Timestamp
-	3, // 5: jobqueue.v1.Task.completed_at:type_name -> google.protobuf.Timestamp
-	6, // [6:6] is the sub-list for method output_type
-	6, // [6:6] is the sub-list for method input_type
+	4, // 0: jobqueue.v1.Task.payload:type_name -> jobqueue.v1.Task.PayloadEntry
+	5, // 1: jobqueue.v1.Task.deadline:type_name -> google.protobuf.Timestamp
+	5, // 2: jobqueue.v1.Task.created_at:type_name -> google.protobuf.Timestamp
+	5, // 3: jobqueue.v1.Task.updated_at:type_name -> google.protobuf.Timestamp
+	5, // 4: jobqueue.v1.Task.started_at:type_name -> google.protobuf.Timestamp
+	5, // 5: jobqueue.v1.Task.completed_at:type_name -> google.protobuf.Timestamp
+	0, // 6: jobqueue.v1.JobQueueService.Health:input_type -> jobqueue.v1.HealthRequest
+	1, // 7: jobqueue.v1.JobQueueService.Health:output_type -> jobqueue.v1.HealthResponse
+	7, // [7:8] is the sub-list for method output_type
+	6, // [6:7] is the sub-list for method input_type
 	6, // [6:6] is the sub-list for extension type_name
 	6, // [6:6] is the sub-list for extension extendee
 	0, // [0:6] is the sub-list for field type_name
@@ -316,9 +414,9 @@ func file_api_v1_jobqueue_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_v1_jobqueue_proto_rawDesc), len(file_api_v1_jobqueue_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   5,
 			NumExtensions: 0,
-			NumServices:   0,
+			NumServices:   1,
 		},
 		GoTypes:           file_api_v1_jobqueue_proto_goTypes,
 		DependencyIndexes: file_api_v1_jobqueue_proto_depIdxs,
