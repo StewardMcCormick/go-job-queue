@@ -1,7 +1,9 @@
 package main
 
 import (
+	"errors"
 	"fmt"
+	"syscall"
 
 	"github.com/StewardMcCormick/go-job-queue/config"
 	"github.com/StewardMcCormick/go-job-queue/internal/api/handlers"
@@ -77,5 +79,11 @@ func (a *App) Shutdown() error {
 	if err != nil {
 		return fmt.Errorf("server stop error: %w", err)
 	}
+
+	err = a.log.Sync()
+	if err != nil && !errors.Is(err, syscall.ENOTTY) && !errors.Is(err, syscall.EINVAL) && !errors.Is(err, syscall.EBADF) {
+		return fmt.Errorf("logger sync error: %w", err)
+	}
+
 	return nil
 }
