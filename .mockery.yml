@@ -1,0 +1,15 @@
+all: false
+dir: '{{.InterfaceDir}}/mocks'
+filename: '{{.InterfaceName}}_mock.go'
+formatter: goimports
+generate: true
+structname: '{{.Mock}}{{.InterfaceName}}'
+pkgname: mocks
+template: testify
+packages:
+  github.com/StewardMcCormick/go-job-queue/internal/api/use_case:
+    interfaces:
+      TaskService:
+  github.com/StewardMcCormick/go-job-queue/internal/api/service:
+    interfaces:
+      EventBus:

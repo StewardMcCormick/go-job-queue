@@ -58,5 +58,9 @@ func (a *App) Run() {
 }
 
 func (a *App) Shutdown() error {
+	err := a.server.Stop()
+	if err != nil {
+		return err
+	}
 	return nil
 }

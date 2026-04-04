@@ -11,8 +11,6 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-var ErrValidation = errors.New("validation error")
-
 type TaskUseCase interface {
 	Create(ctx context.Context, req *pb.CreateTaskRequest) (*pb.CreateTaskResponse, error)
 }
@@ -40,9 +38,11 @@ func (h *JobHandler) CreateTask(ctx context.Context, req *pb.CreateTaskRequest) 
 	response, err := h.taskUseCase.Create(ctx, req)
 	if err != nil {
 		if errors.Is(err, errs.ErrInternal) {
-			return nil, status.Error(codes.Internal, fmt.Sprintf("%s - cannot create task", err.Error()))
+			return nil, status.Error(codes.Internal, fmt.Sprintf("cannot create task - %s", err.Error()))
+		} else if errors.Is(err, errs.ErrBadRequest) {
+			return nil, status.Error(codes.InvalidArgument, fmt.Sprintf("cannot create task - %s", err.Error()))
 		}
-		return nil, status.Error(codes.Unknown, fmt.Sprintf("%s - cannot create task", err.Error()))
+		return nil, status.Error(codes.Unknown, fmt.Sprintf("cannot create task - %s", err.Error()))
 	}
 
 	return response, nil
@@ -55,7 +55,10 @@ func (h *JobHandler) validateCreateTaskRequest(req *pb.CreateTaskRequest) error 
 					- TASK_PRIORITY_BACKGROUND;
 					- TASK_PRIORITY_NORMAL;
     				- TASK_PRIORITY_HIGH;
-    				- TASK_PRIORITY_IMMEDIATE;`, ErrValidation)
+    				- TASK_PRIORITY_IMMEDIATE;`, errs.ErrValidation)
+	}
+	if req.Type == "" {
+		return fmt.Errorf("%w - task type cannot be empty", errs.ErrValidation)
 	}
 
 	return nil
