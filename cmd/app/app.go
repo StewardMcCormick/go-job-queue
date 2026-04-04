@@ -7,7 +7,7 @@ import (
 	"github.com/StewardMcCormick/go-job-queue/internal/api/handlers"
 	"github.com/StewardMcCormick/go-job-queue/internal/api/server"
 	"github.com/StewardMcCormick/go-job-queue/internal/api/service"
-	uc "github.com/StewardMcCormick/go-job-queue/internal/use_case"
+	uc "github.com/StewardMcCormick/go-job-queue/internal/api/use_case"
 	bus "github.com/StewardMcCormick/go-job-queue/pkg/event_bus"
 )
 
