@@ -4,9 +4,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"log"
 
 	pb "github.com/StewardMcCormick/go-job-queue/gen/go/api/v1"
+	appctx "github.com/StewardMcCormick/go-job-queue/internal/api/app_context"
 	"github.com/StewardMcCormick/go-job-queue/internal/api/domain/helpers"
 	errs "github.com/StewardMcCormick/go-job-queue/internal/api/error"
 	bus "github.com/StewardMcCormick/go-job-queue/pkg/event_bus"
@@ -27,10 +27,12 @@ func NewTaskUseCase(taskService TaskService) *taskUseCase {
 }
 
 func (uc *taskUseCase) Create(ctx context.Context, req *pb.CreateTaskRequest) (*pb.CreateTaskResponse, error) {
+	log := appctx.GetLogger(ctx)
+
 	task := helpers.TaskCreateRequestToTask(req)
 	err := uc.taskService.PublishCreateEvent(ctx, task)
 	if err != nil {
-		log.Print(err)
+		log.Error(err.Error())
 		if errors.Is(err, bus.ErrNoSubscribers) {
 			return nil, fmt.Errorf("%w - no available subscribers", errs.ErrBadRequest)
 		}

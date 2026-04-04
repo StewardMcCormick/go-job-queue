@@ -6,3 +6,7 @@ app:
 server:
   host: "localhost"
   port: "50051"
+
+log:
+  level: info
+  outputs: [ "stdout" ]

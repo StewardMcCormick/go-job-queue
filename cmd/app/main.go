@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"os/signal"
@@ -26,11 +27,11 @@ func main() {
 	signal.Notify(sig, syscall.SIGINT, syscall.SIGTERM)
 
 	<-sig
-	log.Print("[SHUTDOWN] Start shutting down...")
+	app.log.Info("[SHUTDOWN] Start shutting down...")
 	err = app.Shutdown()
 	if err != nil {
-		log.Fatalf("[SHUTDOWN] Shoutdown error: %v", err)
+		app.log.Error(fmt.Sprintf("[SHUTDOWN] Shoutdown error: %v", err))
 	}
-	log.Print("[SHUTDOWN] Server was stop")
-	log.Print("[SHUTDOWN] Shutdown completed")
+	app.log.Info("[SHUTDOWN] Server was stop")
+	app.log.Info("[SHUTDOWN] Shutdown completed")
 }

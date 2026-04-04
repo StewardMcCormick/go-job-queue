@@ -2,6 +2,7 @@ package config
 
 import (
 	"github.com/StewardMcCormick/go-job-queue/internal/api/server"
+	"github.com/StewardMcCormick/go-job-queue/pkg/log"
 	"github.com/ilyakaznacheev/cleanenv"
 	"github.com/joho/godotenv"
 )
@@ -22,6 +23,7 @@ type App struct {
 type Config struct {
 	App    App
 	Server server.Config
+	Log    log.Config
 }
 
 func InitConfig() (Config, error) {

@@ -5,6 +5,7 @@ import (
 	"net"
 
 	pb "github.com/StewardMcCormick/go-job-queue/gen/go/api/v1"
+	"go.uber.org/zap"
 	"google.golang.org/grpc"
 )
 
@@ -20,14 +21,16 @@ type gRPCServer struct {
 	jobQueueHandler pb.JobQueueServiceServer
 }
 
-func NewServer(cfg Config, jobQueueHandler pb.JobQueueServiceServer) (gRPCServer, error) {
+func NewServer(cfg Config, log *zap.Logger, jobQueueHandler pb.JobQueueServiceServer) (gRPCServer, error) {
 	addr := fmt.Sprintf("%s:%s", cfg.Host, cfg.Port)
 	lis, err := net.Listen("tcp", addr)
 	if err != nil {
 		return gRPCServer{}, err
 	}
 
-	server := grpc.NewServer()
+	server := grpc.NewServer(
+		grpc.UnaryInterceptor(UnariRequestIdInterceptor(log)),
+	)
 
 	return gRPCServer{
 		listener:        lis,
@@ -50,10 +53,11 @@ func (s gRPCServer) Run() error {
 func (s gRPCServer) Stop() error {
 	if s.server != nil {
 		s.server.GracefulStop()
+		return nil
 	}
 
 	if err := s.listener.Close(); err != nil {
-		return err
+		return fmt.Errorf("listener close error: %w", err)
 	}
 	return nil
 }
