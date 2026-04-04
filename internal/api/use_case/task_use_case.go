@@ -6,9 +6,9 @@ import (
 	"fmt"
 
 	pb "github.com/StewardMcCormick/go-job-queue/gen/go/api/v1"
-	appctx "github.com/StewardMcCormick/go-job-queue/internal/api/app_context"
 	"github.com/StewardMcCormick/go-job-queue/internal/api/domain/helpers"
 	errs "github.com/StewardMcCormick/go-job-queue/internal/api/error"
+	"github.com/StewardMcCormick/go-job-queue/pkg/app_context"
 	bus "github.com/StewardMcCormick/go-job-queue/pkg/event_bus"
 )
 

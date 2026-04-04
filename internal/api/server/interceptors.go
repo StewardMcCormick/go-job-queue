@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	appctx "github.com/StewardMcCormick/go-job-queue/internal/api/app_context"
+	"github.com/StewardMcCormick/go-job-queue/pkg/app_context"
 	"github.com/google/uuid"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
@@ -13,7 +13,7 @@ import (
 	"google.golang.org/grpc/peer"
 )
 
-func UnariRequestIdInterceptor(log *zap.Logger) grpc.UnaryServerInterceptor {
+func UnaryRequestIdInterceptor(log *zap.Logger) grpc.UnaryServerInterceptor {
 	return func(ctx context.Context,
 		req any,
 		info *grpc.UnaryServerInfo,

@@ -15,6 +15,10 @@ func WithLogger(parent context.Context, log *zap.Logger) context.Context {
 }
 
 func GetLogger(ctx context.Context) *zap.Logger {
+	if ctx == nil {
+		return zap.L()
+	}
+
 	log, ok := ctx.Value(LoggerKey).(*zap.Logger)
 	if !ok {
 		return zap.L()
