@@ -22,6 +22,180 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type TaskStatus int32
+
+const (
+	TaskStatus_TASK_STATUS_UNSPECIFIED TaskStatus = 0
+	TaskStatus_TASK_STATUS_CREATED     TaskStatus = 1
+	TaskStatus_TASK_STATUS_PENDING     TaskStatus = 2
+	TaskStatus_TASK_STATUS_RETRY       TaskStatus = 3
+	TaskStatus_TASK_STATUS_FAILED      TaskStatus = 4
+	TaskStatus_TASK_STATUS_CANCELLED   TaskStatus = 5
+	TaskStatus_TASK_STATUS_RUNNING     TaskStatus = 6
+	TaskStatus_TASK_STATUS_COMPLETED   TaskStatus = 7
+)
+
+// Enum value maps for TaskStatus.
+var (
+	TaskStatus_name = map[int32]string{
+		0: "TASK_STATUS_UNSPECIFIED",
+		1: "TASK_STATUS_CREATED",
+		2: "TASK_STATUS_PENDING",
+		3: "TASK_STATUS_RETRY",
+		4: "TASK_STATUS_FAILED",
+		5: "TASK_STATUS_CANCELLED",
+		6: "TASK_STATUS_RUNNING",
+		7: "TASK_STATUS_COMPLETED",
+	}
+	TaskStatus_value = map[string]int32{
+		"TASK_STATUS_UNSPECIFIED": 0,
+		"TASK_STATUS_CREATED":     1,
+		"TASK_STATUS_PENDING":     2,
+		"TASK_STATUS_RETRY":       3,
+		"TASK_STATUS_FAILED":      4,
+		"TASK_STATUS_CANCELLED":   5,
+		"TASK_STATUS_RUNNING":     6,
+		"TASK_STATUS_COMPLETED":   7,
+	}
+)
+
+func (x TaskStatus) Enum() *TaskStatus {
+	p := new(TaskStatus)
+	*p = x
+	return p
+}
+
+func (x TaskStatus) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (TaskStatus) Descriptor() protoreflect.EnumDescriptor {
+	return file_api_v1_jobqueue_proto_enumTypes[0].Descriptor()
+}
+
+func (TaskStatus) Type() protoreflect.EnumType {
+	return &file_api_v1_jobqueue_proto_enumTypes[0]
+}
+
+func (x TaskStatus) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use TaskStatus.Descriptor instead.
+func (TaskStatus) EnumDescriptor() ([]byte, []int) {
+	return file_api_v1_jobqueue_proto_rawDescGZIP(), []int{0}
+}
+
+type TaskPriority int32
+
+const (
+	TaskPriority_TASK_PRIORITY_UNSPECIFIED TaskPriority = 0
+	TaskPriority_TASK_PRIORITY_BACKGROUND  TaskPriority = 1
+	TaskPriority_TASK_PRIORITY_NORMAL      TaskPriority = 2
+	TaskPriority_TASK_PRIORITY_HIGH        TaskPriority = 3
+	TaskPriority_TASK_PRIORITY_IMMEDIATE   TaskPriority = 4
+)
+
+// Enum value maps for TaskPriority.
+var (
+	TaskPriority_name = map[int32]string{
+		0: "TASK_PRIORITY_UNSPECIFIED",
+		1: "TASK_PRIORITY_BACKGROUND",
+		2: "TASK_PRIORITY_NORMAL",
+		3: "TASK_PRIORITY_HIGH",
+		4: "TASK_PRIORITY_IMMEDIATE",
+	}
+	TaskPriority_value = map[string]int32{
+		"TASK_PRIORITY_UNSPECIFIED": 0,
+		"TASK_PRIORITY_BACKGROUND":  1,
+		"TASK_PRIORITY_NORMAL":      2,
+		"TASK_PRIORITY_HIGH":        3,
+		"TASK_PRIORITY_IMMEDIATE":   4,
+	}
+)
+
+func (x TaskPriority) Enum() *TaskPriority {
+	p := new(TaskPriority)
+	*p = x
+	return p
+}
+
+func (x TaskPriority) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (TaskPriority) Descriptor() protoreflect.EnumDescriptor {
+	return file_api_v1_jobqueue_proto_enumTypes[1].Descriptor()
+}
+
+func (TaskPriority) Type() protoreflect.EnumType {
+	return &file_api_v1_jobqueue_proto_enumTypes[1]
+}
+
+func (x TaskPriority) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use TaskPriority.Descriptor instead.
+func (TaskPriority) EnumDescriptor() ([]byte, []int) {
+	return file_api_v1_jobqueue_proto_rawDescGZIP(), []int{1}
+}
+
+type WorkerStatus int32
+
+const (
+	WorkerStatus_WORKER_STATUS_UNSPECIFIED  WorkerStatus = 0
+	WorkerStatus_WORKER_STATUS_REGISTERED   WorkerStatus = 1
+	WorkerStatus_WORKER_STATUS_WORKING      WorkerStatus = 2
+	WorkerStatus_WORKER_STATUS_DEAD         WorkerStatus = 3
+	WorkerStatus_WORKER_STATUS_UNREGISTERED WorkerStatus = 4
+)
+
+// Enum value maps for WorkerStatus.
+var (
+	WorkerStatus_name = map[int32]string{
+		0: "WORKER_STATUS_UNSPECIFIED",
+		1: "WORKER_STATUS_REGISTERED",
+		2: "WORKER_STATUS_WORKING",
+		3: "WORKER_STATUS_DEAD",
+		4: "WORKER_STATUS_UNREGISTERED",
+	}
+	WorkerStatus_value = map[string]int32{
+		"WORKER_STATUS_UNSPECIFIED":  0,
+		"WORKER_STATUS_REGISTERED":   1,
+		"WORKER_STATUS_WORKING":      2,
+		"WORKER_STATUS_DEAD":         3,
+		"WORKER_STATUS_UNREGISTERED": 4,
+	}
+)
+
+func (x WorkerStatus) Enum() *WorkerStatus {
+	p := new(WorkerStatus)
+	*p = x
+	return p
+}
+
+func (x WorkerStatus) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (WorkerStatus) Descriptor() protoreflect.EnumDescriptor {
+	return file_api_v1_jobqueue_proto_enumTypes[2].Descriptor()
+}
+
+func (WorkerStatus) Type() protoreflect.EnumType {
+	return &file_api_v1_jobqueue_proto_enumTypes[2]
+}
+
+func (x WorkerStatus) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use WorkerStatus.Descriptor instead.
+func (WorkerStatus) EnumDescriptor() ([]byte, []int) {
+	return file_api_v1_jobqueue_proto_rawDescGZIP(), []int{2}
+}
+
 type HealthRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Num           int32                  `protobuf:"varint,1,opt,name=num,proto3" json:"num,omitempty"`
@@ -153,8 +327,8 @@ func (x *CreateTaskRequest) GetDependsOn() []string {
 type Task struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Status        string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`
-	Priority      string                 `protobuf:"bytes,3,opt,name=priority,proto3" json:"priority,omitempty"`
+	Status        TaskStatus             `protobuf:"varint,2,opt,name=status,proto3,enum=jobqueue.v1.TaskStatus" json:"status,omitempty"`
+	Priority      TaskPriority           `protobuf:"varint,3,opt,name=priority,proto3,enum=jobqueue.v1.TaskPriority" json:"priority,omitempty"`
 	Type          string                 `protobuf:"bytes,4,opt,name=type,proto3" json:"type,omitempty"`
 	Payload       map[string][]byte      `protobuf:"bytes,5,rep,name=payload,proto3" json:"payload,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	RetryNumber   uint32                 `protobuf:"varint,6,opt,name=retry_number,json=retryNumber,proto3" json:"retry_number,omitempty"`
@@ -206,18 +380,18 @@ func (x *Task) GetId() string {
 	return ""
 }
 
-func (x *Task) GetStatus() string {
+func (x *Task) GetStatus() TaskStatus {
 	if x != nil {
 		return x.Status
 	}
-	return ""
+	return TaskStatus_TASK_STATUS_UNSPECIFIED
 }
 
-func (x *Task) GetPriority() string {
+func (x *Task) GetPriority() TaskPriority {
 	if x != nil {
 		return x.Priority
 	}
-	return ""
+	return TaskPriority_TASK_PRIORITY_UNSPECIFIED
 }
 
 func (x *Task) GetType() string {
@@ -296,7 +470,7 @@ type Worker struct {
 	Addr          string                 `protobuf:"bytes,2,opt,name=addr,proto3" json:"addr,omitempty"`
 	TaskType      string                 `protobuf:"bytes,3,opt,name=task_type,json=taskType,proto3" json:"task_type,omitempty"`
 	Concurrency   uint32                 `protobuf:"varint,4,opt,name=concurrency,proto3" json:"concurrency,omitempty"`
-	Status        string                 `protobuf:"bytes,5,opt,name=status,proto3" json:"status,omitempty"`
+	Status        WorkerStatus           `protobuf:"varint,5,opt,name=status,proto3,enum=jobqueue.v1.WorkerStatus" json:"status,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -359,11 +533,11 @@ func (x *Worker) GetConcurrency() uint32 {
 	return 0
 }
 
-func (x *Worker) GetStatus() string {
+func (x *Worker) GetStatus() WorkerStatus {
 	if x != nil {
 		return x.Status
 	}
-	return ""
+	return WorkerStatus_WORKER_STATUS_UNSPECIFIED
 }
 
 type HealthResponse struct {
@@ -471,11 +645,11 @@ const file_api_v1_jobqueue_proto_rawDesc = "" +
 	"depends_on\x18\b \x03(\tR\tdependsOn\x1a:\n" +
 	"\fPayloadEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\fR\x05value:\x028\x01\"\xe5\x04\n" +
+	"\x05value\x18\x02 \x01(\fR\x05value:\x028\x01\"\x99\x05\n" +
 	"\x04Task\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x16\n" +
-	"\x06status\x18\x02 \x01(\tR\x06status\x12\x1a\n" +
-	"\bpriority\x18\x03 \x01(\tR\bpriority\x12\x12\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12/\n" +
+	"\x06status\x18\x02 \x01(\x0e2\x17.jobqueue.v1.TaskStatusR\x06status\x125\n" +
+	"\bpriority\x18\x03 \x01(\x0e2\x19.jobqueue.v1.TaskPriorityR\bpriority\x12\x12\n" +
 	"\x04type\x18\x04 \x01(\tR\x04type\x128\n" +
 	"\apayload\x18\x05 \x03(\v2\x1e.jobqueue.v1.Task.PayloadEntryR\apayload\x12!\n" +
 	"\fretry_number\x18\x06 \x01(\rR\vretryNumber\x126\n" +
@@ -493,17 +667,39 @@ const file_api_v1_jobqueue_proto_rawDesc = "" +
 	"\fcompleted_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\vcompletedAt\x1a:\n" +
 	"\fPayloadEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\fR\x05value:\x028\x01\"\x83\x01\n" +
+	"\x05value\x18\x02 \x01(\fR\x05value:\x028\x01\"\x9e\x01\n" +
 	"\x06Worker\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04addr\x18\x02 \x01(\tR\x04addr\x12\x1b\n" +
 	"\ttask_type\x18\x03 \x01(\tR\btaskType\x12 \n" +
-	"\vconcurrency\x18\x04 \x01(\rR\vconcurrency\x12\x16\n" +
-	"\x06status\x18\x05 \x01(\tR\x06status\"3\n" +
+	"\vconcurrency\x18\x04 \x01(\rR\vconcurrency\x121\n" +
+	"\x06status\x18\x05 \x01(\x0e2\x19.jobqueue.v1.WorkerStatusR\x06status\"3\n" +
 	"\x0eHealthResponse\x12!\n" +
 	"\frepeated_num\x18\x01 \x01(\x05R\vrepeatedNum\";\n" +
 	"\x12CreateTaskResponse\x12%\n" +
-	"\x04task\x18\x01 \x01(\v2\x11.jobqueue.v1.TaskR\x04task2\xa3\x01\n" +
+	"\x04task\x18\x01 \x01(\v2\x11.jobqueue.v1.TaskR\x04task*\xd9\x01\n" +
+	"\n" +
+	"TaskStatus\x12\x1b\n" +
+	"\x17TASK_STATUS_UNSPECIFIED\x10\x00\x12\x17\n" +
+	"\x13TASK_STATUS_CREATED\x10\x01\x12\x17\n" +
+	"\x13TASK_STATUS_PENDING\x10\x02\x12\x15\n" +
+	"\x11TASK_STATUS_RETRY\x10\x03\x12\x16\n" +
+	"\x12TASK_STATUS_FAILED\x10\x04\x12\x19\n" +
+	"\x15TASK_STATUS_CANCELLED\x10\x05\x12\x17\n" +
+	"\x13TASK_STATUS_RUNNING\x10\x06\x12\x19\n" +
+	"\x15TASK_STATUS_COMPLETED\x10\a*\x9a\x01\n" +
+	"\fTaskPriority\x12\x1d\n" +
+	"\x19TASK_PRIORITY_UNSPECIFIED\x10\x00\x12\x1c\n" +
+	"\x18TASK_PRIORITY_BACKGROUND\x10\x01\x12\x18\n" +
+	"\x14TASK_PRIORITY_NORMAL\x10\x02\x12\x16\n" +
+	"\x12TASK_PRIORITY_HIGH\x10\x03\x12\x1b\n" +
+	"\x17TASK_PRIORITY_IMMEDIATE\x10\x04*\x9e\x01\n" +
+	"\fWorkerStatus\x12\x1d\n" +
+	"\x19WORKER_STATUS_UNSPECIFIED\x10\x00\x12\x1c\n" +
+	"\x18WORKER_STATUS_REGISTERED\x10\x01\x12\x19\n" +
+	"\x15WORKER_STATUS_WORKING\x10\x02\x12\x16\n" +
+	"\x12WORKER_STATUS_DEAD\x10\x03\x12\x1e\n" +
+	"\x1aWORKER_STATUS_UNREGISTERED\x10\x042\xa3\x01\n" +
 	"\x0fJobQueueService\x12A\n" +
 	"\x06Health\x12\x1a.jobqueue.v1.HealthRequest\x1a\x1b.jobqueue.v1.HealthResponse\x12M\n" +
 	"\n" +
@@ -521,37 +717,44 @@ func file_api_v1_jobqueue_proto_rawDescGZIP() []byte {
 	return file_api_v1_jobqueue_proto_rawDescData
 }
 
+var file_api_v1_jobqueue_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
 var file_api_v1_jobqueue_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_api_v1_jobqueue_proto_goTypes = []any{
-	(*HealthRequest)(nil),         // 0: jobqueue.v1.HealthRequest
-	(*CreateTaskRequest)(nil),     // 1: jobqueue.v1.CreateTaskRequest
-	(*Task)(nil),                  // 2: jobqueue.v1.Task
-	(*Worker)(nil),                // 3: jobqueue.v1.Worker
-	(*HealthResponse)(nil),        // 4: jobqueue.v1.HealthResponse
-	(*CreateTaskResponse)(nil),    // 5: jobqueue.v1.CreateTaskResponse
-	nil,                           // 6: jobqueue.v1.CreateTaskRequest.PayloadEntry
-	nil,                           // 7: jobqueue.v1.Task.PayloadEntry
-	(*timestamppb.Timestamp)(nil), // 8: google.protobuf.Timestamp
+	(TaskStatus)(0),               // 0: jobqueue.v1.TaskStatus
+	(TaskPriority)(0),             // 1: jobqueue.v1.TaskPriority
+	(WorkerStatus)(0),             // 2: jobqueue.v1.WorkerStatus
+	(*HealthRequest)(nil),         // 3: jobqueue.v1.HealthRequest
+	(*CreateTaskRequest)(nil),     // 4: jobqueue.v1.CreateTaskRequest
+	(*Task)(nil),                  // 5: jobqueue.v1.Task
+	(*Worker)(nil),                // 6: jobqueue.v1.Worker
+	(*HealthResponse)(nil),        // 7: jobqueue.v1.HealthResponse
+	(*CreateTaskResponse)(nil),    // 8: jobqueue.v1.CreateTaskResponse
+	nil,                           // 9: jobqueue.v1.CreateTaskRequest.PayloadEntry
+	nil,                           // 10: jobqueue.v1.Task.PayloadEntry
+	(*timestamppb.Timestamp)(nil), // 11: google.protobuf.Timestamp
 }
 var file_api_v1_jobqueue_proto_depIdxs = []int32{
-	6,  // 0: jobqueue.v1.CreateTaskRequest.payload:type_name -> jobqueue.v1.CreateTaskRequest.PayloadEntry
-	8,  // 1: jobqueue.v1.CreateTaskRequest.deadline:type_name -> google.protobuf.Timestamp
-	7,  // 2: jobqueue.v1.Task.payload:type_name -> jobqueue.v1.Task.PayloadEntry
-	8,  // 3: jobqueue.v1.Task.deadline:type_name -> google.protobuf.Timestamp
-	8,  // 4: jobqueue.v1.Task.created_at:type_name -> google.protobuf.Timestamp
-	8,  // 5: jobqueue.v1.Task.updated_at:type_name -> google.protobuf.Timestamp
-	8,  // 6: jobqueue.v1.Task.started_at:type_name -> google.protobuf.Timestamp
-	8,  // 7: jobqueue.v1.Task.completed_at:type_name -> google.protobuf.Timestamp
-	2,  // 8: jobqueue.v1.CreateTaskResponse.task:type_name -> jobqueue.v1.Task
-	0,  // 9: jobqueue.v1.JobQueueService.Health:input_type -> jobqueue.v1.HealthRequest
-	1,  // 10: jobqueue.v1.JobQueueService.CreateTask:input_type -> jobqueue.v1.CreateTaskRequest
-	4,  // 11: jobqueue.v1.JobQueueService.Health:output_type -> jobqueue.v1.HealthResponse
-	5,  // 12: jobqueue.v1.JobQueueService.CreateTask:output_type -> jobqueue.v1.CreateTaskResponse
-	11, // [11:13] is the sub-list for method output_type
-	9,  // [9:11] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	9,  // 0: jobqueue.v1.CreateTaskRequest.payload:type_name -> jobqueue.v1.CreateTaskRequest.PayloadEntry
+	11, // 1: jobqueue.v1.CreateTaskRequest.deadline:type_name -> google.protobuf.Timestamp
+	0,  // 2: jobqueue.v1.Task.status:type_name -> jobqueue.v1.TaskStatus
+	1,  // 3: jobqueue.v1.Task.priority:type_name -> jobqueue.v1.TaskPriority
+	10, // 4: jobqueue.v1.Task.payload:type_name -> jobqueue.v1.Task.PayloadEntry
+	11, // 5: jobqueue.v1.Task.deadline:type_name -> google.protobuf.Timestamp
+	11, // 6: jobqueue.v1.Task.created_at:type_name -> google.protobuf.Timestamp
+	11, // 7: jobqueue.v1.Task.updated_at:type_name -> google.protobuf.Timestamp
+	11, // 8: jobqueue.v1.Task.started_at:type_name -> google.protobuf.Timestamp
+	11, // 9: jobqueue.v1.Task.completed_at:type_name -> google.protobuf.Timestamp
+	2,  // 10: jobqueue.v1.Worker.status:type_name -> jobqueue.v1.WorkerStatus
+	5,  // 11: jobqueue.v1.CreateTaskResponse.task:type_name -> jobqueue.v1.Task
+	3,  // 12: jobqueue.v1.JobQueueService.Health:input_type -> jobqueue.v1.HealthRequest
+	4,  // 13: jobqueue.v1.JobQueueService.CreateTask:input_type -> jobqueue.v1.CreateTaskRequest
+	7,  // 14: jobqueue.v1.JobQueueService.Health:output_type -> jobqueue.v1.HealthResponse
+	8,  // 15: jobqueue.v1.JobQueueService.CreateTask:output_type -> jobqueue.v1.CreateTaskResponse
+	14, // [14:16] is the sub-list for method output_type
+	12, // [12:14] is the sub-list for method input_type
+	12, // [12:12] is the sub-list for extension type_name
+	12, // [12:12] is the sub-list for extension extendee
+	0,  // [0:12] is the sub-list for field type_name
 }
 
 func init() { file_api_v1_jobqueue_proto_init() }
@@ -564,13 +767,14 @@ func file_api_v1_jobqueue_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_v1_jobqueue_proto_rawDesc), len(file_api_v1_jobqueue_proto_rawDesc)),
-			NumEnums:      0,
+			NumEnums:      3,
 			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_api_v1_jobqueue_proto_goTypes,
 		DependencyIndexes: file_api_v1_jobqueue_proto_depIdxs,
+		EnumInfos:         file_api_v1_jobqueue_proto_enumTypes,
 		MessageInfos:      file_api_v1_jobqueue_proto_msgTypes,
 	}.Build()
 	File_api_v1_jobqueue_proto = out.File
