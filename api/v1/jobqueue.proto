@@ -8,15 +8,26 @@ option go_package = "./gen/go/api/v1;jobqueue";
 
 service JobQueueService {
     rpc Health(HealthRequest) returns (HealthResponse);
+
+    rpc CreateTask(CreateTaskRequest) returns (CreateTaskResponse);
 }
+
+// ================Request Models================
 
 message HealthRequest {
     int32 num = 1;
 }
 
-message HealthResponse {
-    int32 repeated_num = 1;
+message CreateTaskRequest {
+    string priority = 3;
+    string type = 4;
+    map<string, bytes> payload = 5;
+    uint32 retry_number = 6;
+    google.protobuf.Timestamp deadline = 7;
+    repeated string depends_on = 8;
 }
+
+// ================Domain Models================
 
 message Task {
     string id = 1;
@@ -40,4 +51,14 @@ message Worker {
     string task_type = 3;
     uint32 concurrency = 4;
     string status = 5;
+}
+
+// ================Response Models================
+
+message HealthResponse {
+    int32 repeated_num = 1;
+}
+
+message CreateTaskResponse {
+    Task task = 1;
 }
