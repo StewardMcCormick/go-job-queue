@@ -19,7 +19,7 @@ message HealthRequest {
 }
 
 message CreateTaskRequest {
-    string priority = 3;
+    TaskPriority priority = 3;
     string type = 4;
     map<string, bytes> payload = 5;
     uint32 retry_number = 6;

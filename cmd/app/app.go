@@ -6,6 +6,9 @@ import (
 	"github.com/StewardMcCormick/go-job-queue/config"
 	"github.com/StewardMcCormick/go-job-queue/internal/api/handlers"
 	"github.com/StewardMcCormick/go-job-queue/internal/api/server"
+	"github.com/StewardMcCormick/go-job-queue/internal/api/service"
+	uc "github.com/StewardMcCormick/go-job-queue/internal/use_case"
+	bus "github.com/StewardMcCormick/go-job-queue/pkg/event_bus"
 )
 
 type Server interface {
@@ -30,7 +33,10 @@ func InitApp(cfg config.Config) (*App, error) {
 }
 
 func (a *App) InitServer(cfg server.Config) error {
-	jobQueueHandler := handlers.NewHandler()
+	eventBus := bus.NewEventBus()
+	taskService := service.NewTaskService(eventBus)
+	taskUseCase := uc.NewTaskUseCase(taskService)
+	jobQueueHandler := handlers.NewHandler(taskUseCase)
 
 	s, err := server.NewServer(cfg, jobQueueHandler)
 	if err != nil {
