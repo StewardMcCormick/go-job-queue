@@ -137,27 +137,87 @@ syntax = "proto3";
 
 import "google/protobuf/timestamp.proto";
 
+service JobQueueService {
+  rpc Health(HealthRequest) returns (HealthResponse);
+
+  rpc CreateTask(CreateTaskRequest) returns (CreateTaskResponse);
+}
+
+// ================Request Models================
+
+message HealthRequest {
+  int32 num = 1;
+}
+
+message CreateTaskRequest {
+  string priority = 3;
+  string type = 4;
+  map<string, bytes> payload = 5;
+  uint32 retry_number = 6;
+  google.protobuf.Timestamp deadline = 7;
+  repeated string depends_on = 8;
+}
+
+// ================Domain Models================
+
 message Task {
-    string id = 1;
-    string status = 2;
-    string priority = 3;
-    string type = 4;
-    map<string, bytes> payload = 5;
-    uint32 retry_number = 6;
-    google.protobuf.Timestamp deadline = 7;
-    repeated string depends_on = 8;
-    repeated string dependency_for = 9;
-    google.protobuf.Timestamp created_at = 10;
-    google.protobuf.Timestamp updated_at = 11;
-    google.protobuf.Timestamp started_at = 12;
-    google.protobuf.Timestamp completed_at = 13;
+  string id = 1;
+  TaskStatus status = 2;
+  TaskPriority priority = 3;
+  string type = 4;
+  map<string, bytes> payload = 5;
+  uint32 retry_number = 6;
+  google.protobuf.Timestamp deadline = 7;
+  repeated string depends_on = 8;
+  repeated string dependency_for = 9;
+  google.protobuf.Timestamp created_at = 10;
+  google.protobuf.Timestamp updated_at = 11;
+  google.protobuf.Timestamp started_at = 12;
+  google.protobuf.Timestamp completed_at = 13;
 }
 
 message Worker {
-    string id = 1;
-    string addr = 2;
-    string task_type = 3;
-    uint32 concurrency = 4;
-    string status = 5;
+  string id = 1;
+  string addr = 2;
+  string task_type = 3;
+  uint32 concurrency = 4;
+  WorkerStatus status = 5;
+}
+
+enum TaskStatus {
+  TASK_STATUS_UNSPECIFIED = 0;
+  TASK_STATUS_CREATED = 1;
+  TASK_STATUS_PENDING = 2;
+  TASK_STATUS_RETRY = 3;
+  TASK_STATUS_FAILED = 4;
+  TASK_STATUS_CANCELLED = 5;
+  TASK_STATUS_RUNNING = 6;
+  TASK_STATUS_COMPLETED = 7;
+}
+
+enum TaskPriority {
+  TASK_PRIORITY_UNSPECIFIED = 0;
+  TASK_PRIORITY_BACKGROUND = 1;
+  TASK_PRIORITY_NORMAL = 2;
+  TASK_PRIORITY_HIGH = 3;
+  TASK_PRIORITY_IMMEDIATE = 4;
+}
+
+enum WorkerStatus {
+  WORKER_STATUS_UNSPECIFIED = 0;
+  WORKER_STATUS_REGISTERED = 1;
+  WORKER_STATUS_WORKING = 2;
+  WORKER_STATUS_DEAD = 3;
+  WORKER_STATUS_UNREGISTERED = 4;
+}
+
+// ================Response Models================
+
+message HealthResponse {
+  int32 repeated_num = 1;
+}
+
+message CreateTaskResponse {
+  Task task = 1;
 }
 ```
