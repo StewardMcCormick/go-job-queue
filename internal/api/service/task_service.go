@@ -12,13 +12,17 @@ type EventBus interface {
 	Publish(ctx context.Context, event events.Event) error
 }
 
+type RedisStorage interface{}
+
 type taskService struct {
 	eventBus EventBus
+	redis    RedisStorage
 }
 
-func NewTaskService(eventBus EventBus) *taskService {
+func NewTaskService(eventBus EventBus, redis RedisStorage) *taskService {
 	return &taskService{
 		eventBus: eventBus,
+		redis:    redis,
 	}
 }
 

@@ -32,6 +32,5 @@ func main() {
 	if err != nil {
 		app.log.Error(fmt.Sprintf("[SHUTDOWN] Shoutdown error: %v", err))
 	}
-	app.log.Info("[SHUTDOWN] Server was stop")
 	app.log.Info("[SHUTDOWN] Shutdown completed")
 }

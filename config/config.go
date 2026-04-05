@@ -1,6 +1,7 @@
 package config
 
 import (
+	"github.com/StewardMcCormick/go-job-queue/internal/adapter/redis"
 	"github.com/StewardMcCormick/go-job-queue/internal/api/server"
 	"github.com/StewardMcCormick/go-job-queue/pkg/log"
 	"github.com/ilyakaznacheev/cleanenv"
@@ -24,6 +25,7 @@ type Config struct {
 	App    App
 	Server server.Config
 	Log    log.Config
+	Redis  redis.Config
 }
 
 func InitConfig() (Config, error) {

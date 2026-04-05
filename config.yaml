@@ -10,3 +10,16 @@ server:
 log:
   level: info
   outputs: [ "stdout" ]
+
+postgres:
+  connection_config:
+    connection_timeout: "5s"
+    max_connections: 15
+    min_connections: 0
+    max_connection_live_time: "1h"
+    max_connection_idle_time: "30m"
+    health_check_period: "1m"
+
+redis:
+  pool_size: 10
+  pool_timeout: "5s"
