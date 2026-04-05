@@ -241,15 +241,15 @@ func (x *HealthRequest) GetNum() int32 {
 }
 
 type CreateTaskRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Priority      TaskPriority           `protobuf:"varint,3,opt,name=priority,proto3,enum=jobqueue.v1.TaskPriority" json:"priority,omitempty"`
-	Type          string                 `protobuf:"bytes,4,opt,name=type,proto3" json:"type,omitempty"`
-	Payload       map[string][]byte      `protobuf:"bytes,5,rep,name=payload,proto3" json:"payload,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	RetryNumber   uint32                 `protobuf:"varint,6,opt,name=retry_number,json=retryNumber,proto3" json:"retry_number,omitempty"`
-	Deadline      *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=deadline,proto3" json:"deadline,omitempty"`
-	DependsOn     []string               `protobuf:"bytes,8,rep,name=depends_on,json=dependsOn,proto3" json:"depends_on,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	Priority          TaskPriority           `protobuf:"varint,3,opt,name=priority,proto3,enum=jobqueue.v1.TaskPriority" json:"priority,omitempty"`
+	Type              string                 `protobuf:"bytes,4,opt,name=type,proto3" json:"type,omitempty"`
+	Payload           map[string][]byte      `protobuf:"bytes,5,rep,name=payload,proto3" json:"payload,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	ShouldRetryNumber uint32                 `protobuf:"varint,6,opt,name=should_retry_number,json=shouldRetryNumber,proto3" json:"should_retry_number,omitempty"`
+	Deadline          *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=deadline,proto3" json:"deadline,omitempty"`
+	DependsOn         []string               `protobuf:"bytes,8,rep,name=depends_on,json=dependsOn,proto3" json:"depends_on,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *CreateTaskRequest) Reset() {
@@ -303,9 +303,9 @@ func (x *CreateTaskRequest) GetPayload() map[string][]byte {
 	return nil
 }
 
-func (x *CreateTaskRequest) GetRetryNumber() uint32 {
+func (x *CreateTaskRequest) GetShouldRetryNumber() uint32 {
 	if x != nil {
-		return x.RetryNumber
+		return x.ShouldRetryNumber
 	}
 	return 0
 }
@@ -325,22 +325,23 @@ func (x *CreateTaskRequest) GetDependsOn() []string {
 }
 
 type Task struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Status        TaskStatus             `protobuf:"varint,2,opt,name=status,proto3,enum=jobqueue.v1.TaskStatus" json:"status,omitempty"`
-	Priority      TaskPriority           `protobuf:"varint,3,opt,name=priority,proto3,enum=jobqueue.v1.TaskPriority" json:"priority,omitempty"`
-	Type          string                 `protobuf:"bytes,4,opt,name=type,proto3" json:"type,omitempty"`
-	Payload       map[string][]byte      `protobuf:"bytes,5,rep,name=payload,proto3" json:"payload,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	RetryNumber   uint32                 `protobuf:"varint,6,opt,name=retry_number,json=retryNumber,proto3" json:"retry_number,omitempty"`
-	Deadline      *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=deadline,proto3" json:"deadline,omitempty"`
-	DependsOn     []string               `protobuf:"bytes,8,rep,name=depends_on,json=dependsOn,proto3" json:"depends_on,omitempty"`
-	DependencyFor []string               `protobuf:"bytes,9,rep,name=dependency_for,json=dependencyFor,proto3" json:"dependency_for,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	StartedAt     *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=started_at,json=startedAt,proto3" json:"started_at,omitempty"`
-	CompletedAt   *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=completed_at,json=completedAt,proto3" json:"completed_at,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	Id                string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Status            TaskStatus             `protobuf:"varint,2,opt,name=status,proto3,enum=jobqueue.v1.TaskStatus" json:"status,omitempty"`
+	Priority          TaskPriority           `protobuf:"varint,3,opt,name=priority,proto3,enum=jobqueue.v1.TaskPriority" json:"priority,omitempty"`
+	Type              string                 `protobuf:"bytes,4,opt,name=type,proto3" json:"type,omitempty"`
+	Payload           map[string][]byte      `protobuf:"bytes,5,rep,name=payload,proto3" json:"payload,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	ShouldRetryNumber uint32                 `protobuf:"varint,6,opt,name=should_retry_number,json=shouldRetryNumber,proto3" json:"should_retry_number,omitempty"`
+	Retries           uint32                 `protobuf:"varint,7,opt,name=retries,proto3" json:"retries,omitempty"`
+	Deadline          *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=deadline,proto3" json:"deadline,omitempty"`
+	DependsOn         []string               `protobuf:"bytes,9,rep,name=depends_on,json=dependsOn,proto3" json:"depends_on,omitempty"`
+	DependencyFor     []string               `protobuf:"bytes,10,rep,name=dependency_for,json=dependencyFor,proto3" json:"dependency_for,omitempty"`
+	CreatedAt         *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt         *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	StartedAt         *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=started_at,json=startedAt,proto3" json:"started_at,omitempty"`
+	CompletedAt       *timestamppb.Timestamp `protobuf:"bytes,14,opt,name=completed_at,json=completedAt,proto3" json:"completed_at,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *Task) Reset() {
@@ -408,9 +409,16 @@ func (x *Task) GetPayload() map[string][]byte {
 	return nil
 }
 
-func (x *Task) GetRetryNumber() uint32 {
+func (x *Task) GetShouldRetryNumber() uint32 {
 	if x != nil {
-		return x.RetryNumber
+		return x.ShouldRetryNumber
+	}
+	return 0
+}
+
+func (x *Task) GetRetries() uint32 {
+	if x != nil {
+		return x.Retries
 	}
 	return 0
 }
@@ -634,37 +642,38 @@ const file_api_v1_jobqueue_proto_rawDesc = "" +
 	"\n" +
 	"\x15api/v1/jobqueue.proto\x12\vjobqueue.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"!\n" +
 	"\rHealthRequest\x12\x10\n" +
-	"\x03num\x18\x01 \x01(\x05R\x03num\"\xdb\x02\n" +
+	"\x03num\x18\x01 \x01(\x05R\x03num\"\xe8\x02\n" +
 	"\x11CreateTaskRequest\x125\n" +
 	"\bpriority\x18\x03 \x01(\x0e2\x19.jobqueue.v1.TaskPriorityR\bpriority\x12\x12\n" +
 	"\x04type\x18\x04 \x01(\tR\x04type\x12E\n" +
-	"\apayload\x18\x05 \x03(\v2+.jobqueue.v1.CreateTaskRequest.PayloadEntryR\apayload\x12!\n" +
-	"\fretry_number\x18\x06 \x01(\rR\vretryNumber\x126\n" +
+	"\apayload\x18\x05 \x03(\v2+.jobqueue.v1.CreateTaskRequest.PayloadEntryR\apayload\x12.\n" +
+	"\x13should_retry_number\x18\x06 \x01(\rR\x11shouldRetryNumber\x126\n" +
 	"\bdeadline\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\bdeadline\x12\x1d\n" +
 	"\n" +
 	"depends_on\x18\b \x03(\tR\tdependsOn\x1a:\n" +
 	"\fPayloadEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\fR\x05value:\x028\x01\"\x99\x05\n" +
+	"\x05value\x18\x02 \x01(\fR\x05value:\x028\x01\"\xc0\x05\n" +
 	"\x04Task\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12/\n" +
 	"\x06status\x18\x02 \x01(\x0e2\x17.jobqueue.v1.TaskStatusR\x06status\x125\n" +
 	"\bpriority\x18\x03 \x01(\x0e2\x19.jobqueue.v1.TaskPriorityR\bpriority\x12\x12\n" +
 	"\x04type\x18\x04 \x01(\tR\x04type\x128\n" +
-	"\apayload\x18\x05 \x03(\v2\x1e.jobqueue.v1.Task.PayloadEntryR\apayload\x12!\n" +
-	"\fretry_number\x18\x06 \x01(\rR\vretryNumber\x126\n" +
-	"\bdeadline\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\bdeadline\x12\x1d\n" +
+	"\apayload\x18\x05 \x03(\v2\x1e.jobqueue.v1.Task.PayloadEntryR\apayload\x12.\n" +
+	"\x13should_retry_number\x18\x06 \x01(\rR\x11shouldRetryNumber\x12\x18\n" +
+	"\aretries\x18\a \x01(\rR\aretries\x126\n" +
+	"\bdeadline\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\bdeadline\x12\x1d\n" +
 	"\n" +
-	"depends_on\x18\b \x03(\tR\tdependsOn\x12%\n" +
-	"\x0edependency_for\x18\t \x03(\tR\rdependencyFor\x129\n" +
+	"depends_on\x18\t \x03(\tR\tdependsOn\x12%\n" +
+	"\x0edependency_for\x18\n" +
+	" \x03(\tR\rdependencyFor\x129\n" +
 	"\n" +
-	"created_at\x18\n" +
-	" \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"created_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
 	"\n" +
-	"updated_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x129\n" +
+	"updated_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x129\n" +
 	"\n" +
-	"started_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\tstartedAt\x12=\n" +
-	"\fcompleted_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\vcompletedAt\x1a:\n" +
+	"started_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\tstartedAt\x12=\n" +
+	"\fcompleted_at\x18\x0e \x01(\v2\x1a.google.protobuf.TimestampR\vcompletedAt\x1a:\n" +
 	"\fPayloadEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\fR\x05value:\x028\x01\"\x9e\x01\n" +
