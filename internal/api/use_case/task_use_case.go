@@ -41,7 +41,7 @@ func (uc *taskUseCase) GetById(ctx context.Context, id string) (*pb.GetTaskByIdR
 	task, err := uc.taskService.GetById(ctx, id)
 	if err != nil {
 		log.Error(fmt.Sprintf("get task by id error: %v", err))
-		return nil, fmt.Errorf("cannot get task with id %s: %w", id, err)
+		return nil, fmt.Errorf("cannot get task with id '%s': %w", id, err)
 	}
 
 	return helpers.TaskToGetTaskByIdResponse(task), nil
@@ -53,7 +53,7 @@ func (uc *taskUseCase) Create(ctx context.Context, req *pb.CreateTaskRequest) (*
 	task := helpers.TaskCreateRequestToTask(req)
 	id, err := uc.generateId()
 	if err != nil {
-		return nil, fmt.Errorf("task id generation error: %w", err)
+		return nil, fmt.Errorf("task id generation error: %w", errs.ErrInternal)
 	}
 	task.Id = id
 	uc.setTime(task, time.Now())
@@ -61,7 +61,10 @@ func (uc *taskUseCase) Create(ctx context.Context, req *pb.CreateTaskRequest) (*
 	err = uc.taskService.ValidateDependencies(ctx, task)
 	if err != nil {
 		log.Error(fmt.Sprintf("dependencies validation error: %v", err))
-		return nil, fmt.Errorf("dependencies validation error: %w", err)
+		if errors.Is(err, errs.ErrInvalidDependencies) {
+			return nil, fmt.Errorf("dependencies validation error: %w", err)
+		}
+		return nil, fmt.Errorf("dependencies validation error: %w", errs.ErrBadRequest)
 	}
 
 	if err := uc.taskService.SaveInRedis(ctx, task); err != nil {
@@ -73,7 +76,7 @@ func (uc *taskUseCase) Create(ctx context.Context, req *pb.CreateTaskRequest) (*
 	if err != nil {
 		log.Error(err.Error())
 		if err := uc.taskService.DeleteFromRedis(ctx, task.Id); err != nil {
-			return nil, fmt.Errorf("cannot delete task after event publishing error: %w", err)
+			return nil, fmt.Errorf("cannot delete task after event publishing error: %w", errs.ErrInternal)
 		}
 		if errors.Is(err, bus.ErrNoSubscribers) {
 			return nil, fmt.Errorf("%w - no available subscribers", errs.ErrBadRequest)

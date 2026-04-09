@@ -38,9 +38,7 @@ func (h *JobHandler) CreateTask(ctx context.Context, req *pb.CreateTaskRequest) 
 
 	response, err := h.taskUseCase.Create(ctx, req)
 	if err != nil {
-		if errors.Is(err, errs.ErrInternal) {
-			return nil, status.Error(codes.Internal, fmt.Sprintf("cannot create task - %s", err.Error()))
-		} else if errors.Is(err, errs.ErrBadRequest) {
+		if errors.Is(err, errs.ErrBadRequest) {
 			return nil, status.Error(codes.InvalidArgument, fmt.Sprintf("cannot create task - %s", err.Error()))
 		}
 		return nil, status.Errorf(codes.Internal, "cannot create task - %s", err.Error())
@@ -69,9 +67,9 @@ func (h *JobHandler) GetTaskById(ctx context.Context, req *pb.GetTaskByIdRequest
 	resp, err := h.taskUseCase.GetById(ctx, req.Id)
 	if err != nil {
 		if errors.Is(err, errs.ErrNotFound) {
-			return nil, status.Errorf(codes.NotFound, "cannot get task: %s", err.Error())
+			return nil, status.Errorf(codes.NotFound, "cannot get task with id %s: %s", req.Id, err.Error())
 		}
-		return nil, status.Errorf(codes.Internal, "cannot get task: %s", err.Error())
+		return nil, status.Errorf(codes.Internal, "cannot get task with id %s: %s", req.Id, err.Error())
 	}
 
 	return resp, nil

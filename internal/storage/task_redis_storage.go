@@ -109,16 +109,16 @@ func (s *taskRedisStorage) GetById(ctx context.Context, id string) (*pb.Task, er
 	id = fmt.Sprintf("task:%s", id)
 
 	res, err := s.client.HGetAll(ctx, id).Result()
+	if len(res) == 0 {
+		return nil, fmt.Errorf("%w - task with id '%s' was not found", errs.ErrNotFound, id)
+	}
 	if err != nil {
-		if errors.Is(err, redis.Nil) {
-			return nil, fmt.Errorf("%w - task with id %s was not found", errs.ErrNotFound, id)
-		}
 		return nil, fmt.Errorf("get task by id error: %w", err)
 	}
 
 	task, err := s.parseTaskFromMap(res)
 	if err != nil {
-		return nil, fmt.Errorf("cannot get task with id %s: %w", id, err)
+		return nil, fmt.Errorf("cannot get task with id '%s': %w", id, err)
 	}
 
 	return task, nil

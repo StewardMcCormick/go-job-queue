@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	pb "github.com/StewardMcCormick/go-job-queue/gen/go/api/v1"
+	errs "github.com/StewardMcCormick/go-job-queue/internal/api/error"
 	"github.com/StewardMcCormick/go-job-queue/pkg/event_bus/events"
 	"github.com/jackc/pgx/v5"
 )
@@ -60,7 +61,7 @@ func (s *taskService) SaveInRedis(ctx context.Context, req *pb.Task) error {
 func (s *taskService) DeleteFromRedis(ctx context.Context, id string) error {
 	err := s.redis.Remove(ctx, id)
 	if err != nil {
-		return fmt.Errorf("cannot delete task with id %s: %w", id, err)
+		return fmt.Errorf("cannot delete task with id '%s': %w", id, err)
 	}
 
 	return nil
@@ -77,7 +78,7 @@ func (s *taskService) ValidateDependencies(ctx context.Context, req *pb.Task) er
 			_, err = s.postgres.GetById(ctx, id)
 			if err != nil {
 				if errors.Is(err, pgx.ErrNoRows) {
-					return fmt.Errorf("%w - dependency with id %s does not exist", err, id)
+					return fmt.Errorf("%w - dependency with id '%s' does not exist", errs.ErrInvalidDependencies, id)
 				}
 			}
 			req.DependsOn[i] = ""
@@ -85,7 +86,7 @@ func (s *taskService) ValidateDependencies(ctx context.Context, req *pb.Task) er
 
 		err = s.redis.UpdateDependencyFor(ctx, id, req.Id)
 		if err != nil {
-			return fmt.Errorf("cannot update dependencyFor for task with id %s: %w", id, err)
+			return fmt.Errorf("cannot update dependencyFor for task with id '%s': %w", id, err)
 		}
 	}
 
@@ -95,7 +96,7 @@ func (s *taskService) ValidateDependencies(ctx context.Context, req *pb.Task) er
 func (s *taskService) GetById(ctx context.Context, id string) (*pb.Task, error) {
 	task, err := s.redis.GetById(ctx, id)
 	if err != nil {
-		return nil, fmt.Errorf("cannot get task with id %s: %w", id, err)
+		return nil, fmt.Errorf("cannot get task with id '%s': %w", id, err)
 	}
 
 	return task, nil

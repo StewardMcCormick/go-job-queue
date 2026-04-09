@@ -7,5 +7,6 @@ var (
 	ErrValidation = errors.New("validation error")
 	ErrBadRequest = errors.New("bad request")
 
-	ErrNotFound = errors.New("task was not found")
+	ErrNotFound            = errors.New("task was not found")
+	ErrInvalidDependencies = errors.New("invalid dependencies")
 )

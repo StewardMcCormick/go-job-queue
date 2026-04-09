@@ -2,6 +2,7 @@ package storage
 
 import (
 	"context"
+	"fmt"
 
 	pb "github.com/StewardMcCormick/go-job-queue/gen/go/api/v1"
 	"github.com/jackc/pgx/v5"
@@ -23,7 +24,7 @@ func (s *taskPostgresStorage) GetById(ctx context.Context, id string) ([]*pb.Tas
 
 	_, err := s.pool.Exec(ctx, query, id)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("get task by id from postgres error: %w", err)
 	}
 
 	return nil, pgx.ErrNoRows
