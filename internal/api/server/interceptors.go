@@ -47,3 +47,21 @@ func UnaryRequestIdInterceptor(log *zap.Logger) grpc.UnaryServerInterceptor {
 		return resp, err
 	}
 }
+
+func UnaryRecoveryInterceptor() grpc.UnaryServerInterceptor {
+	return func(ctx context.Context,
+		req any,
+		info *grpc.UnaryServerInfo,
+		handler grpc.UnaryHandler,
+	) (any, error) {
+		defer func() {
+			log := appctx.GetLogger(ctx)
+			if r := recover(); r != nil {
+				log.Error(fmt.Sprintf("%v", r))
+			}
+		}()
+
+		resp, err := handler(ctx, req)
+		return resp, err
+	}
+}
