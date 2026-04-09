@@ -166,10 +166,10 @@ message HealthRequest {
 }
 
 message CreateTaskRequest {
-  string priority = 3;
+  TaskPriority priority = 3;
   string type = 4;
-  map<string, bytes> payload = 5;
-  uint32 retry_number = 6;
+  bytes payload = 5;
+  uint32 should_retry_number = 6;
   google.protobuf.Timestamp deadline = 7;
   repeated string depends_on = 8;
 }
@@ -181,7 +181,7 @@ message Task {
   TaskStatus status = 2;
   TaskPriority priority = 3;
   string type = 4;
-  map<string, bytes> payload = 5;
+  bytes payload = 5;
   uint32 should_retry_number = 6;
   uint32 retries = 7;
   google.protobuf.Timestamp deadline = 8;
@@ -235,6 +235,19 @@ message HealthResponse {
 }
 
 message CreateTaskResponse {
-  Task task = 1;
+  string id = 1;
+  TaskStatus status = 2;
+  TaskPriority priority = 3;
+  string type = 4;
+  bytes payload = 5;
+  uint32 should_retry_number = 6;
+  uint32 retries = 7;
+  google.protobuf.Timestamp deadline = 8;
+  repeated string depends_on = 9;
+  repeated string dependency_for = 10;
+  google.protobuf.Timestamp created_at = 11;
+  google.protobuf.Timestamp updated_at = 12;
+  google.protobuf.Timestamp started_at = 13;
+  google.protobuf.Timestamp completed_at = 14;
 }
 ```
