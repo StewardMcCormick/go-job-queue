@@ -1,6 +1,7 @@
 package config
 
 import (
+	"github.com/StewardMcCormick/go-job-queue/internal/adapter/postgres"
 	"github.com/StewardMcCormick/go-job-queue/internal/adapter/redis"
 	"github.com/StewardMcCormick/go-job-queue/internal/api/server"
 	"github.com/StewardMcCormick/go-job-queue/pkg/log"
@@ -22,10 +23,11 @@ type App struct {
 }
 
 type Config struct {
-	App    App
-	Server server.Config
-	Log    log.Config
-	Redis  redis.Config
+	App      App
+	Server   server.Config
+	Log      log.Config
+	Redis    redis.Config
+	Postgres postgres.Config
 }
 
 func InitConfig() (Config, error) {

@@ -27,7 +27,7 @@ type Config struct {
 	ConnectionConfig ConnectionConfig `yaml:"connection_config"`
 }
 
-func NewPool(ctx context.Context, cfg *Config) (*pgxpool.Pool, error) {
+func NewPool(ctx context.Context, cfg Config) (*pgxpool.Pool, error) {
 	dbUrl := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable",
 		cfg.User, cfg.Password, cfg.Host, cfg.Port, cfg.DbName,
 	)

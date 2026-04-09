@@ -13,8 +13,14 @@ func TaskCreateRequestToTask(req *pb.CreateTaskRequest) *pb.Task {
 	}
 }
 
-func TaskToCreateTaskResponse(task *pb.Task) *pb.CreateTaskResponse {
+func TaskToCreateTaskResponse(req *pb.Task) *pb.CreateTaskResponse {
 	return &pb.CreateTaskResponse{
-		Task: task,
+		Id:                req.Id,
+		Priority:          req.Priority,
+		Type:              req.Type,
+		Payload:           req.Payload,
+		ShouldRetryNumber: req.ShouldRetryNumber,
+		Deadline:          req.Deadline,
+		DependsOn:         req.DependsOn,
 	}
 }

@@ -1,11 +1,14 @@
 package main
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"syscall"
+	"time"
 
 	"github.com/StewardMcCormick/go-job-queue/config"
+	"github.com/StewardMcCormick/go-job-queue/internal/adapter/postgres"
 	r "github.com/StewardMcCormick/go-job-queue/internal/adapter/redis"
 	"github.com/StewardMcCormick/go-job-queue/internal/api/handlers"
 	"github.com/StewardMcCormick/go-job-queue/internal/api/server"
@@ -14,6 +17,7 @@ import (
 	"github.com/StewardMcCormick/go-job-queue/internal/storage"
 	bus "github.com/StewardMcCormick/go-job-queue/pkg/event_bus"
 	"github.com/StewardMcCormick/go-job-queue/pkg/log"
+	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/redis/go-redis/v9"
 	"go.uber.org/zap"
 )
@@ -27,6 +31,7 @@ type Server interface {
 type App struct {
 	server          Server
 	log             *zap.Logger
+	pgxPool         *pgxpool.Pool
 	taskRedisClient *redis.Client
 }
 
@@ -35,6 +40,11 @@ func InitApp(cfg config.Config) (*App, error) {
 
 	a.InitLogger(cfg.Log, cfg.App.Env, cfg.App.Name, cfg.App.Version)
 	err := a.InitRedis(cfg.Redis)
+	if err != nil {
+		return nil, err
+	}
+
+	err = a.InitPgxPool(cfg.Postgres)
 	if err != nil {
 		return nil, err
 	}
@@ -57,6 +67,21 @@ func (a *App) InitLogger(cfg log.Config, env config.AppEnv, appName, appVersion 
 	a.log = logger
 }
 
+func (a *App) InitPgxPool(cfg postgres.Config) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	a.log.Info("[START] PostgreSQL connection initialization...")
+	pool, err := postgres.NewPool(ctx, cfg)
+	if err != nil {
+		return err
+	}
+
+	a.pgxPool = pool
+	a.log.Info("[START] PostgreSQL connection initialization completed")
+	return nil
+}
+
 func (a *App) InitRedis(cfg r.Config) error {
 	a.log.Info("[START] Redis initialization...")
 	taskClient, err := r.NewConnection(cfg, 0)
@@ -72,7 +97,8 @@ func (a *App) InitRedis(cfg r.Config) error {
 func (a *App) InitServer(cfg server.Config) error {
 	eventBus := bus.NewEventBus()
 	taskRedisStorage := storage.NewTaskRedisStorage(a.taskRedisClient)
-	taskService := service.NewTaskService(eventBus, taskRedisStorage)
+	taskPostgresStorage := storage.NewTaskPostgresStorage(a.pgxPool)
+	taskService := service.NewTaskService(eventBus, taskRedisStorage, taskPostgresStorage)
 	taskUseCase := uc.NewTaskUseCase(taskService)
 	jobQueueHandler := handlers.NewHandler(taskUseCase)
 
@@ -101,6 +127,9 @@ func (a *App) Shutdown() error {
 		return fmt.Errorf("[SHUTDOWN] Server stop error: %w", err)
 	}
 	a.log.Info("[SHUTDOWN] Server closed")
+
+	a.pgxPool.Close()
+	a.log.Info("[SHUTDOWN] PostgreSQL connection closed")
 
 	err = a.taskRedisClient.Close()
 	if err != nil {

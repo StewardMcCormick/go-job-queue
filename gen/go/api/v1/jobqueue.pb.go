@@ -244,7 +244,7 @@ type CreateTaskRequest struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
 	Priority          TaskPriority           `protobuf:"varint,3,opt,name=priority,proto3,enum=jobqueue.v1.TaskPriority" json:"priority,omitempty"`
 	Type              string                 `protobuf:"bytes,4,opt,name=type,proto3" json:"type,omitempty"`
-	Payload           map[string][]byte      `protobuf:"bytes,5,rep,name=payload,proto3" json:"payload,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Payload           []byte                 `protobuf:"bytes,5,opt,name=payload,proto3" json:"payload,omitempty"`
 	ShouldRetryNumber uint32                 `protobuf:"varint,6,opt,name=should_retry_number,json=shouldRetryNumber,proto3" json:"should_retry_number,omitempty"`
 	Deadline          *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=deadline,proto3" json:"deadline,omitempty"`
 	DependsOn         []string               `protobuf:"bytes,8,rep,name=depends_on,json=dependsOn,proto3" json:"depends_on,omitempty"`
@@ -296,7 +296,7 @@ func (x *CreateTaskRequest) GetType() string {
 	return ""
 }
 
-func (x *CreateTaskRequest) GetPayload() map[string][]byte {
+func (x *CreateTaskRequest) GetPayload() []byte {
 	if x != nil {
 		return x.Payload
 	}
@@ -330,7 +330,7 @@ type Task struct {
 	Status            TaskStatus             `protobuf:"varint,2,opt,name=status,proto3,enum=jobqueue.v1.TaskStatus" json:"status,omitempty"`
 	Priority          TaskPriority           `protobuf:"varint,3,opt,name=priority,proto3,enum=jobqueue.v1.TaskPriority" json:"priority,omitempty"`
 	Type              string                 `protobuf:"bytes,4,opt,name=type,proto3" json:"type,omitempty"`
-	Payload           map[string][]byte      `protobuf:"bytes,5,rep,name=payload,proto3" json:"payload,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	Payload           []byte                 `protobuf:"bytes,5,opt,name=payload,proto3" json:"payload,omitempty"`
 	ShouldRetryNumber uint32                 `protobuf:"varint,6,opt,name=should_retry_number,json=shouldRetryNumber,proto3" json:"should_retry_number,omitempty"`
 	Retries           uint32                 `protobuf:"varint,7,opt,name=retries,proto3" json:"retries,omitempty"`
 	Deadline          *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=deadline,proto3" json:"deadline,omitempty"`
@@ -402,7 +402,7 @@ func (x *Task) GetType() string {
 	return ""
 }
 
-func (x *Task) GetPayload() map[string][]byte {
+func (x *Task) GetPayload() []byte {
 	if x != nil {
 		return x.Payload
 	}
@@ -593,10 +593,23 @@ func (x *HealthResponse) GetRepeatedNum() int32 {
 }
 
 type CreateTaskResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Task          *Task                  `protobuf:"bytes,1,opt,name=task,proto3" json:"task,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	Id                string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Status            TaskStatus             `protobuf:"varint,2,opt,name=status,proto3,enum=jobqueue.v1.TaskStatus" json:"status,omitempty"`
+	Priority          TaskPriority           `protobuf:"varint,3,opt,name=priority,proto3,enum=jobqueue.v1.TaskPriority" json:"priority,omitempty"`
+	Type              string                 `protobuf:"bytes,4,opt,name=type,proto3" json:"type,omitempty"`
+	Payload           []byte                 `protobuf:"bytes,5,opt,name=payload,proto3" json:"payload,omitempty"`
+	ShouldRetryNumber uint32                 `protobuf:"varint,6,opt,name=should_retry_number,json=shouldRetryNumber,proto3" json:"should_retry_number,omitempty"`
+	Retries           uint32                 `protobuf:"varint,7,opt,name=retries,proto3" json:"retries,omitempty"`
+	Deadline          *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=deadline,proto3" json:"deadline,omitempty"`
+	DependsOn         []string               `protobuf:"bytes,9,rep,name=depends_on,json=dependsOn,proto3" json:"depends_on,omitempty"`
+	DependencyFor     []string               `protobuf:"bytes,10,rep,name=dependency_for,json=dependencyFor,proto3" json:"dependency_for,omitempty"`
+	CreatedAt         *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt         *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	StartedAt         *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=started_at,json=startedAt,proto3" json:"started_at,omitempty"`
+	CompletedAt       *timestamppb.Timestamp `protobuf:"bytes,14,opt,name=completed_at,json=completedAt,proto3" json:"completed_at,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *CreateTaskResponse) Reset() {
@@ -629,9 +642,100 @@ func (*CreateTaskResponse) Descriptor() ([]byte, []int) {
 	return file_api_v1_jobqueue_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *CreateTaskResponse) GetTask() *Task {
+func (x *CreateTaskResponse) GetId() string {
 	if x != nil {
-		return x.Task
+		return x.Id
+	}
+	return ""
+}
+
+func (x *CreateTaskResponse) GetStatus() TaskStatus {
+	if x != nil {
+		return x.Status
+	}
+	return TaskStatus_TASK_STATUS_UNSPECIFIED
+}
+
+func (x *CreateTaskResponse) GetPriority() TaskPriority {
+	if x != nil {
+		return x.Priority
+	}
+	return TaskPriority_TASK_PRIORITY_UNSPECIFIED
+}
+
+func (x *CreateTaskResponse) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
+func (x *CreateTaskResponse) GetPayload() []byte {
+	if x != nil {
+		return x.Payload
+	}
+	return nil
+}
+
+func (x *CreateTaskResponse) GetShouldRetryNumber() uint32 {
+	if x != nil {
+		return x.ShouldRetryNumber
+	}
+	return 0
+}
+
+func (x *CreateTaskResponse) GetRetries() uint32 {
+	if x != nil {
+		return x.Retries
+	}
+	return 0
+}
+
+func (x *CreateTaskResponse) GetDeadline() *timestamppb.Timestamp {
+	if x != nil {
+		return x.Deadline
+	}
+	return nil
+}
+
+func (x *CreateTaskResponse) GetDependsOn() []string {
+	if x != nil {
+		return x.DependsOn
+	}
+	return nil
+}
+
+func (x *CreateTaskResponse) GetDependencyFor() []string {
+	if x != nil {
+		return x.DependencyFor
+	}
+	return nil
+}
+
+func (x *CreateTaskResponse) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *CreateTaskResponse) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
+func (x *CreateTaskResponse) GetStartedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.StartedAt
+	}
+	return nil
+}
+
+func (x *CreateTaskResponse) GetCompletedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CompletedAt
 	}
 	return nil
 }
@@ -642,24 +746,21 @@ const file_api_v1_jobqueue_proto_rawDesc = "" +
 	"\n" +
 	"\x15api/v1/jobqueue.proto\x12\vjobqueue.v1\x1a\x1fgoogle/protobuf/timestamp.proto\"!\n" +
 	"\rHealthRequest\x12\x10\n" +
-	"\x03num\x18\x01 \x01(\x05R\x03num\"\xe8\x02\n" +
+	"\x03num\x18\x01 \x01(\x05R\x03num\"\xff\x01\n" +
 	"\x11CreateTaskRequest\x125\n" +
 	"\bpriority\x18\x03 \x01(\x0e2\x19.jobqueue.v1.TaskPriorityR\bpriority\x12\x12\n" +
-	"\x04type\x18\x04 \x01(\tR\x04type\x12E\n" +
-	"\apayload\x18\x05 \x03(\v2+.jobqueue.v1.CreateTaskRequest.PayloadEntryR\apayload\x12.\n" +
+	"\x04type\x18\x04 \x01(\tR\x04type\x12\x18\n" +
+	"\apayload\x18\x05 \x01(\fR\apayload\x12.\n" +
 	"\x13should_retry_number\x18\x06 \x01(\rR\x11shouldRetryNumber\x126\n" +
 	"\bdeadline\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\bdeadline\x12\x1d\n" +
 	"\n" +
-	"depends_on\x18\b \x03(\tR\tdependsOn\x1a:\n" +
-	"\fPayloadEntry\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\fR\x05value:\x028\x01\"\xc0\x05\n" +
+	"depends_on\x18\b \x03(\tR\tdependsOn\"\xe4\x04\n" +
 	"\x04Task\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12/\n" +
 	"\x06status\x18\x02 \x01(\x0e2\x17.jobqueue.v1.TaskStatusR\x06status\x125\n" +
 	"\bpriority\x18\x03 \x01(\x0e2\x19.jobqueue.v1.TaskPriorityR\bpriority\x12\x12\n" +
-	"\x04type\x18\x04 \x01(\tR\x04type\x128\n" +
-	"\apayload\x18\x05 \x03(\v2\x1e.jobqueue.v1.Task.PayloadEntryR\apayload\x12.\n" +
+	"\x04type\x18\x04 \x01(\tR\x04type\x12\x18\n" +
+	"\apayload\x18\x05 \x01(\fR\apayload\x12.\n" +
 	"\x13should_retry_number\x18\x06 \x01(\rR\x11shouldRetryNumber\x12\x18\n" +
 	"\aretries\x18\a \x01(\rR\aretries\x126\n" +
 	"\bdeadline\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\bdeadline\x12\x1d\n" +
@@ -673,10 +774,7 @@ const file_api_v1_jobqueue_proto_rawDesc = "" +
 	"updated_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x129\n" +
 	"\n" +
 	"started_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\tstartedAt\x12=\n" +
-	"\fcompleted_at\x18\x0e \x01(\v2\x1a.google.protobuf.TimestampR\vcompletedAt\x1a:\n" +
-	"\fPayloadEntry\x12\x10\n" +
-	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\fR\x05value:\x028\x01\"\x9e\x01\n" +
+	"\fcompleted_at\x18\x0e \x01(\v2\x1a.google.protobuf.TimestampR\vcompletedAt\"\x9e\x01\n" +
 	"\x06Worker\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04addr\x18\x02 \x01(\tR\x04addr\x12\x1b\n" +
@@ -684,9 +782,27 @@ const file_api_v1_jobqueue_proto_rawDesc = "" +
 	"\vconcurrency\x18\x04 \x01(\rR\vconcurrency\x121\n" +
 	"\x06status\x18\x05 \x01(\x0e2\x19.jobqueue.v1.WorkerStatusR\x06status\"3\n" +
 	"\x0eHealthResponse\x12!\n" +
-	"\frepeated_num\x18\x01 \x01(\x05R\vrepeatedNum\";\n" +
-	"\x12CreateTaskResponse\x12%\n" +
-	"\x04task\x18\x01 \x01(\v2\x11.jobqueue.v1.TaskR\x04task*\xd9\x01\n" +
+	"\frepeated_num\x18\x01 \x01(\x05R\vrepeatedNum\"\xf2\x04\n" +
+	"\x12CreateTaskResponse\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12/\n" +
+	"\x06status\x18\x02 \x01(\x0e2\x17.jobqueue.v1.TaskStatusR\x06status\x125\n" +
+	"\bpriority\x18\x03 \x01(\x0e2\x19.jobqueue.v1.TaskPriorityR\bpriority\x12\x12\n" +
+	"\x04type\x18\x04 \x01(\tR\x04type\x12\x18\n" +
+	"\apayload\x18\x05 \x01(\fR\apayload\x12.\n" +
+	"\x13should_retry_number\x18\x06 \x01(\rR\x11shouldRetryNumber\x12\x18\n" +
+	"\aretries\x18\a \x01(\rR\aretries\x126\n" +
+	"\bdeadline\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\bdeadline\x12\x1d\n" +
+	"\n" +
+	"depends_on\x18\t \x03(\tR\tdependsOn\x12%\n" +
+	"\x0edependency_for\x18\n" +
+	" \x03(\tR\rdependencyFor\x129\n" +
+	"\n" +
+	"created_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x129\n" +
+	"\n" +
+	"started_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\tstartedAt\x12=\n" +
+	"\fcompleted_at\x18\x0e \x01(\v2\x1a.google.protobuf.TimestampR\vcompletedAt*\xd9\x01\n" +
 	"\n" +
 	"TaskStatus\x12\x1b\n" +
 	"\x17TASK_STATUS_UNSPECIFIED\x10\x00\x12\x17\n" +
@@ -727,7 +843,7 @@ func file_api_v1_jobqueue_proto_rawDescGZIP() []byte {
 }
 
 var file_api_v1_jobqueue_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_api_v1_jobqueue_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_api_v1_jobqueue_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_api_v1_jobqueue_proto_goTypes = []any{
 	(TaskStatus)(0),               // 0: jobqueue.v1.TaskStatus
 	(TaskPriority)(0),             // 1: jobqueue.v1.TaskPriority
@@ -738,33 +854,35 @@ var file_api_v1_jobqueue_proto_goTypes = []any{
 	(*Worker)(nil),                // 6: jobqueue.v1.Worker
 	(*HealthResponse)(nil),        // 7: jobqueue.v1.HealthResponse
 	(*CreateTaskResponse)(nil),    // 8: jobqueue.v1.CreateTaskResponse
-	nil,                           // 9: jobqueue.v1.CreateTaskRequest.PayloadEntry
-	nil,                           // 10: jobqueue.v1.Task.PayloadEntry
-	(*timestamppb.Timestamp)(nil), // 11: google.protobuf.Timestamp
+	(*timestamppb.Timestamp)(nil), // 9: google.protobuf.Timestamp
 }
 var file_api_v1_jobqueue_proto_depIdxs = []int32{
 	1,  // 0: jobqueue.v1.CreateTaskRequest.priority:type_name -> jobqueue.v1.TaskPriority
-	9,  // 1: jobqueue.v1.CreateTaskRequest.payload:type_name -> jobqueue.v1.CreateTaskRequest.PayloadEntry
-	11, // 2: jobqueue.v1.CreateTaskRequest.deadline:type_name -> google.protobuf.Timestamp
-	0,  // 3: jobqueue.v1.Task.status:type_name -> jobqueue.v1.TaskStatus
-	1,  // 4: jobqueue.v1.Task.priority:type_name -> jobqueue.v1.TaskPriority
-	10, // 5: jobqueue.v1.Task.payload:type_name -> jobqueue.v1.Task.PayloadEntry
-	11, // 6: jobqueue.v1.Task.deadline:type_name -> google.protobuf.Timestamp
-	11, // 7: jobqueue.v1.Task.created_at:type_name -> google.protobuf.Timestamp
-	11, // 8: jobqueue.v1.Task.updated_at:type_name -> google.protobuf.Timestamp
-	11, // 9: jobqueue.v1.Task.started_at:type_name -> google.protobuf.Timestamp
-	11, // 10: jobqueue.v1.Task.completed_at:type_name -> google.protobuf.Timestamp
-	2,  // 11: jobqueue.v1.Worker.status:type_name -> jobqueue.v1.WorkerStatus
-	5,  // 12: jobqueue.v1.CreateTaskResponse.task:type_name -> jobqueue.v1.Task
-	3,  // 13: jobqueue.v1.JobQueueService.Health:input_type -> jobqueue.v1.HealthRequest
-	4,  // 14: jobqueue.v1.JobQueueService.CreateTask:input_type -> jobqueue.v1.CreateTaskRequest
-	7,  // 15: jobqueue.v1.JobQueueService.Health:output_type -> jobqueue.v1.HealthResponse
-	8,  // 16: jobqueue.v1.JobQueueService.CreateTask:output_type -> jobqueue.v1.CreateTaskResponse
-	15, // [15:17] is the sub-list for method output_type
-	13, // [13:15] is the sub-list for method input_type
-	13, // [13:13] is the sub-list for extension type_name
-	13, // [13:13] is the sub-list for extension extendee
-	0,  // [0:13] is the sub-list for field type_name
+	9,  // 1: jobqueue.v1.CreateTaskRequest.deadline:type_name -> google.protobuf.Timestamp
+	0,  // 2: jobqueue.v1.Task.status:type_name -> jobqueue.v1.TaskStatus
+	1,  // 3: jobqueue.v1.Task.priority:type_name -> jobqueue.v1.TaskPriority
+	9,  // 4: jobqueue.v1.Task.deadline:type_name -> google.protobuf.Timestamp
+	9,  // 5: jobqueue.v1.Task.created_at:type_name -> google.protobuf.Timestamp
+	9,  // 6: jobqueue.v1.Task.updated_at:type_name -> google.protobuf.Timestamp
+	9,  // 7: jobqueue.v1.Task.started_at:type_name -> google.protobuf.Timestamp
+	9,  // 8: jobqueue.v1.Task.completed_at:type_name -> google.protobuf.Timestamp
+	2,  // 9: jobqueue.v1.Worker.status:type_name -> jobqueue.v1.WorkerStatus
+	0,  // 10: jobqueue.v1.CreateTaskResponse.status:type_name -> jobqueue.v1.TaskStatus
+	1,  // 11: jobqueue.v1.CreateTaskResponse.priority:type_name -> jobqueue.v1.TaskPriority
+	9,  // 12: jobqueue.v1.CreateTaskResponse.deadline:type_name -> google.protobuf.Timestamp
+	9,  // 13: jobqueue.v1.CreateTaskResponse.created_at:type_name -> google.protobuf.Timestamp
+	9,  // 14: jobqueue.v1.CreateTaskResponse.updated_at:type_name -> google.protobuf.Timestamp
+	9,  // 15: jobqueue.v1.CreateTaskResponse.started_at:type_name -> google.protobuf.Timestamp
+	9,  // 16: jobqueue.v1.CreateTaskResponse.completed_at:type_name -> google.protobuf.Timestamp
+	3,  // 17: jobqueue.v1.JobQueueService.Health:input_type -> jobqueue.v1.HealthRequest
+	4,  // 18: jobqueue.v1.JobQueueService.CreateTask:input_type -> jobqueue.v1.CreateTaskRequest
+	7,  // 19: jobqueue.v1.JobQueueService.Health:output_type -> jobqueue.v1.HealthResponse
+	8,  // 20: jobqueue.v1.JobQueueService.CreateTask:output_type -> jobqueue.v1.CreateTaskResponse
+	19, // [19:21] is the sub-list for method output_type
+	17, // [17:19] is the sub-list for method input_type
+	17, // [17:17] is the sub-list for extension type_name
+	17, // [17:17] is the sub-list for extension extendee
+	0,  // [0:17] is the sub-list for field type_name
 }
 
 func init() { file_api_v1_jobqueue_proto_init() }
@@ -778,7 +896,7 @@ func file_api_v1_jobqueue_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_v1_jobqueue_proto_rawDesc), len(file_api_v1_jobqueue_proto_rawDesc)),
 			NumEnums:      3,
-			NumMessages:   8,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -3,7 +3,6 @@ package bus
 import (
 	"context"
 	"errors"
-	"fmt"
 	"sync"
 	"time"
 
@@ -30,28 +29,30 @@ func NewEventBus() *eventBus {
 }
 
 func (b *eventBus) Publish(ctx context.Context, event events.Event) error {
-	b.mu.Lock()
-	ch, exist := b.channels[event.Type]
-	b.mu.Unlock()
-
-	if !exist {
-		return fmt.Errorf("%w - no subscibers for event type %v", ErrNoSubscribers, event.Type)
-	}
-
-	if err := b.publishBlocked(ctx, event, ch); err != nil {
-		return fmt.Errorf("%w - event publishing error", err)
-	}
+	// b.mu.Lock()
+	// ch, exist := b.channels[event.Type]
+	// b.mu.Unlock()
+	//
+	// if !exist {
+	//	return fmt.Errorf("%w - no subscibers for event type %v", ErrNoSubscribers, event.Type)
+	// }
+	//
+	// if err := b.publishBlocked(ctx, event, ch); err != nil {
+	//	return fmt.Errorf("%w - event publishing error", err)
+	// }
+	//
+	// log.Printf("new event: %v", event)
 
 	return nil
 }
 
-func (b *eventBus) publishBlocked(ctx context.Context, event events.Event, ch chan<- events.Event) error {
-	select {
-	case ch <- event:
-		return nil
-	case <-time.After(b.timeout):
-		return ErrExitByTimeout
-	case <-ctx.Done():
-		return ctx.Err()
-	}
-}
+// func (b *eventBus) publishBlocked(ctx context.Context, event events.Event, ch chan<- events.Event) error {
+//	select {
+//	case ch <- event:
+//		return nil
+//	case <-time.After(b.timeout):
+//		return ErrExitByTimeout
+//	case <-ctx.Done():
+//		return ctx.Err()
+//	}
+// }
