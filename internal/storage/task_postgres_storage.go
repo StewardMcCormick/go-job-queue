@@ -19,7 +19,12 @@ func NewTaskPostgresStorage(pool *pgxpool.Pool) *taskPostgresStorage {
 }
 
 func (s *taskPostgresStorage) GetById(ctx context.Context, id string) ([]*pb.Task, error) {
-	// query := `SELECT * FROM`
-	//
+	query := `SELECT * FROM tasks WHERE id=$1`
+
+	_, err := s.pool.Exec(ctx, query, id)
+	if err != nil {
+		return nil, err
+	}
+
 	return nil, pgx.ErrNoRows
 }
