@@ -21,6 +21,8 @@ type TaskService interface {
 	DeleteFromRedis(ctx context.Context, id string) error
 
 	ValidateDependencies(ctx context.Context, req *pb.Task) error
+
+	GetById(ctx context.Context, id string) (*pb.Task, error)
 }
 
 type taskUseCase struct {
@@ -31,6 +33,18 @@ func NewTaskUseCase(taskService TaskService) *taskUseCase {
 	return &taskUseCase{
 		taskService: taskService,
 	}
+}
+
+func (uc *taskUseCase) GetById(ctx context.Context, id string) (*pb.GetTaskByIdResponse, error) {
+	log := appctx.GetLogger(ctx)
+
+	task, err := uc.taskService.GetById(ctx, id)
+	if err != nil {
+		log.Error(fmt.Sprintf("get task by id error: %v", err))
+		return nil, fmt.Errorf("cannot get task with id %s: %w", id, err)
+	}
+
+	return helpers.TaskToGetTaskByIdResponse(task), nil
 }
 
 func (uc *taskUseCase) Create(ctx context.Context, req *pb.CreateTaskRequest) (*pb.CreateTaskResponse, error) {

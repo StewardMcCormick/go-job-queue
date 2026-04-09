@@ -19,6 +19,7 @@ type RedisStorage interface {
 	Exists(ctx context.Context, id string) (bool, error)
 	Remove(ctx context.Context, id string) error
 	UpdateDependencyFor(ctx context.Context, id, dependencyId string) error
+	GetById(ctx context.Context, id string) (*pb.Task, error)
 }
 
 type PostgresStorage interface {
@@ -89,4 +90,13 @@ func (s *taskService) ValidateDependencies(ctx context.Context, req *pb.Task) er
 	}
 
 	return nil
+}
+
+func (s *taskService) GetById(ctx context.Context, id string) (*pb.Task, error) {
+	task, err := s.redis.GetById(ctx, id)
+	if err != nil {
+		return nil, fmt.Errorf("cannot get task with id %s: %w", id, err)
+	}
+
+	return task, nil
 }

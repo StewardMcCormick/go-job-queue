@@ -19,8 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	JobQueueService_Health_FullMethodName     = "/jobqueue.v1.JobQueueService/Health"
-	JobQueueService_CreateTask_FullMethodName = "/jobqueue.v1.JobQueueService/CreateTask"
+	JobQueueService_Health_FullMethodName      = "/jobqueue.v1.JobQueueService/Health"
+	JobQueueService_CreateTask_FullMethodName  = "/jobqueue.v1.JobQueueService/CreateTask"
+	JobQueueService_GetTaskById_FullMethodName = "/jobqueue.v1.JobQueueService/GetTaskById"
 )
 
 // JobQueueServiceClient is the client API for JobQueueService service.
@@ -29,6 +30,7 @@ const (
 type JobQueueServiceClient interface {
 	Health(ctx context.Context, in *HealthRequest, opts ...grpc.CallOption) (*HealthResponse, error)
 	CreateTask(ctx context.Context, in *CreateTaskRequest, opts ...grpc.CallOption) (*CreateTaskResponse, error)
+	GetTaskById(ctx context.Context, in *GetTaskByIdRequest, opts ...grpc.CallOption) (*GetTaskByIdResponse, error)
 }
 
 type jobQueueServiceClient struct {
@@ -59,12 +61,23 @@ func (c *jobQueueServiceClient) CreateTask(ctx context.Context, in *CreateTaskRe
 	return out, nil
 }
 
+func (c *jobQueueServiceClient) GetTaskById(ctx context.Context, in *GetTaskByIdRequest, opts ...grpc.CallOption) (*GetTaskByIdResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetTaskByIdResponse)
+	err := c.cc.Invoke(ctx, JobQueueService_GetTaskById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // JobQueueServiceServer is the server API for JobQueueService service.
 // All implementations must embed UnimplementedJobQueueServiceServer
 // for forward compatibility.
 type JobQueueServiceServer interface {
 	Health(context.Context, *HealthRequest) (*HealthResponse, error)
 	CreateTask(context.Context, *CreateTaskRequest) (*CreateTaskResponse, error)
+	GetTaskById(context.Context, *GetTaskByIdRequest) (*GetTaskByIdResponse, error)
 	mustEmbedUnimplementedJobQueueServiceServer()
 }
 
@@ -80,6 +93,9 @@ func (UnimplementedJobQueueServiceServer) Health(context.Context, *HealthRequest
 }
 func (UnimplementedJobQueueServiceServer) CreateTask(context.Context, *CreateTaskRequest) (*CreateTaskResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method CreateTask not implemented")
+}
+func (UnimplementedJobQueueServiceServer) GetTaskById(context.Context, *GetTaskByIdRequest) (*GetTaskByIdResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetTaskById not implemented")
 }
 func (UnimplementedJobQueueServiceServer) mustEmbedUnimplementedJobQueueServiceServer() {}
 func (UnimplementedJobQueueServiceServer) testEmbeddedByValue()                         {}
@@ -138,6 +154,24 @@ func _JobQueueService_CreateTask_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _JobQueueService_GetTaskById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTaskByIdRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JobQueueServiceServer).GetTaskById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: JobQueueService_GetTaskById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JobQueueServiceServer).GetTaskById(ctx, req.(*GetTaskByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // JobQueueService_ServiceDesc is the grpc.ServiceDesc for JobQueueService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -152,6 +186,10 @@ var JobQueueService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateTask",
 			Handler:    _JobQueueService_CreateTask_Handler,
+		},
+		{
+			MethodName: "GetTaskById",
+			Handler:    _JobQueueService_GetTaskById_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

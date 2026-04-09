@@ -5,9 +5,13 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"strconv"
+	"time"
 
 	pb "github.com/StewardMcCormick/go-job-queue/gen/go/api/v1"
+	errs "github.com/StewardMcCormick/go-job-queue/internal/api/error"
 	"github.com/redis/go-redis/v9"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type taskRedisStorage struct {
@@ -99,4 +103,89 @@ func (s *taskRedisStorage) UpdateDependencyFor(ctx context.Context, dependencyId
 	}
 
 	return nil
+}
+
+func (s *taskRedisStorage) GetById(ctx context.Context, id string) (*pb.Task, error) {
+	id = fmt.Sprintf("task:%s", id)
+
+	res, err := s.client.HGetAll(ctx, id).Result()
+	if err != nil {
+		if errors.Is(err, redis.Nil) {
+			return nil, fmt.Errorf("%w - task with id %s was not found", errs.ErrNotFound, id)
+		}
+		return nil, fmt.Errorf("get task by id error: %w", err)
+	}
+
+	task, err := s.parseTaskFromMap(res)
+	if err != nil {
+		return nil, fmt.Errorf("cannot get task with id %s: %w", id, err)
+	}
+
+	return task, nil
+}
+
+func (s *taskRedisStorage) parseTaskFromMap(m map[string]string) (*pb.Task, error) {
+	createdAt, err := time.Parse(time.RFC3339, m["CreatedAt"])
+	if err != nil {
+		return nil, fmt.Errorf("time parsing error: %w", err)
+	}
+
+	updatedAt, err := time.Parse(time.RFC3339, m["UpdatedAt"])
+	if err != nil {
+		return nil, fmt.Errorf("time parsing error: %w", err)
+	}
+
+	startedAt, err := time.Parse(time.RFC3339, m["StartedAt"])
+	if err != nil {
+		return nil, fmt.Errorf("time parsing error: %w", err)
+	}
+
+	completedAt, err := time.Parse(time.RFC3339, m["CompletedAt"])
+	if err != nil {
+		return nil, fmt.Errorf("time parsing error: %w", err)
+	}
+
+	deadline, err := time.Parse(time.RFC3339, m["Deadline"])
+	if err != nil {
+		return nil, fmt.Errorf("time parsing error: %w", err)
+	}
+
+	shouldRetryNumber, err := strconv.ParseUint(m["ShouldRetryNumber"], 10, 32)
+	if err != nil {
+		return nil, fmt.Errorf("uint parse error: %w", err)
+	}
+
+	retries, err := strconv.ParseUint(m["Retries"], 10, 32)
+	if err != nil {
+		return nil, fmt.Errorf("uint parse error: %w", err)
+	}
+
+	var dependsOn []string
+	err = json.Unmarshal([]byte(m["DependsOn"]), &dependsOn)
+	if err != nil {
+		return nil, fmt.Errorf("dependsOn parse error: %w", err)
+	}
+
+	var dependencyFor []string
+	err = json.Unmarshal([]byte(m["DependencyFor"]), &dependencyFor)
+	if err != nil {
+		return nil, fmt.Errorf("dependencyFor parse error: %w", err)
+	}
+
+	return &pb.Task{
+		Id:                m["Id"],
+		Status:            pb.TaskStatus(pb.TaskStatus_value[m["Status"]]),
+		Priority:          pb.TaskPriority(pb.TaskPriority_value[m["Priority"]]),
+		Type:              m["type"],
+		Payload:           []byte(m["payload"]),
+		ShouldRetryNumber: uint32(shouldRetryNumber),
+		Retries:           uint32(retries),
+		Deadline:          timestamppb.New(deadline),
+		DependsOn:         dependsOn,
+		DependencyFor:     dependencyFor,
+		CreatedAt:         timestamppb.New(createdAt),
+		UpdatedAt:         timestamppb.New(updatedAt),
+		StartedAt:         timestamppb.New(startedAt),
+		CompletedAt:       timestamppb.New(completedAt),
+	}, nil
 }

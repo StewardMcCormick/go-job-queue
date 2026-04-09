@@ -324,6 +324,50 @@ func (x *CreateTaskRequest) GetDependsOn() []string {
 	return nil
 }
 
+type GetTaskByIdRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetTaskByIdRequest) Reset() {
+	*x = GetTaskByIdRequest{}
+	mi := &file_api_v1_jobqueue_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTaskByIdRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTaskByIdRequest) ProtoMessage() {}
+
+func (x *GetTaskByIdRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_v1_jobqueue_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTaskByIdRequest.ProtoReflect.Descriptor instead.
+func (*GetTaskByIdRequest) Descriptor() ([]byte, []int) {
+	return file_api_v1_jobqueue_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *GetTaskByIdRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
 type Task struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
 	Id                string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -346,7 +390,7 @@ type Task struct {
 
 func (x *Task) Reset() {
 	*x = Task{}
-	mi := &file_api_v1_jobqueue_proto_msgTypes[2]
+	mi := &file_api_v1_jobqueue_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -358,7 +402,7 @@ func (x *Task) String() string {
 func (*Task) ProtoMessage() {}
 
 func (x *Task) ProtoReflect() protoreflect.Message {
-	mi := &file_api_v1_jobqueue_proto_msgTypes[2]
+	mi := &file_api_v1_jobqueue_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -371,7 +415,7 @@ func (x *Task) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Task.ProtoReflect.Descriptor instead.
 func (*Task) Descriptor() ([]byte, []int) {
-	return file_api_v1_jobqueue_proto_rawDescGZIP(), []int{2}
+	return file_api_v1_jobqueue_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *Task) GetId() string {
@@ -485,7 +529,7 @@ type Worker struct {
 
 func (x *Worker) Reset() {
 	*x = Worker{}
-	mi := &file_api_v1_jobqueue_proto_msgTypes[3]
+	mi := &file_api_v1_jobqueue_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -497,7 +541,7 @@ func (x *Worker) String() string {
 func (*Worker) ProtoMessage() {}
 
 func (x *Worker) ProtoReflect() protoreflect.Message {
-	mi := &file_api_v1_jobqueue_proto_msgTypes[3]
+	mi := &file_api_v1_jobqueue_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -510,7 +554,7 @@ func (x *Worker) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Worker.ProtoReflect.Descriptor instead.
 func (*Worker) Descriptor() ([]byte, []int) {
-	return file_api_v1_jobqueue_proto_rawDescGZIP(), []int{3}
+	return file_api_v1_jobqueue_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *Worker) GetId() string {
@@ -557,7 +601,7 @@ type HealthResponse struct {
 
 func (x *HealthResponse) Reset() {
 	*x = HealthResponse{}
-	mi := &file_api_v1_jobqueue_proto_msgTypes[4]
+	mi := &file_api_v1_jobqueue_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -569,7 +613,7 @@ func (x *HealthResponse) String() string {
 func (*HealthResponse) ProtoMessage() {}
 
 func (x *HealthResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_v1_jobqueue_proto_msgTypes[4]
+	mi := &file_api_v1_jobqueue_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -582,7 +626,7 @@ func (x *HealthResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use HealthResponse.ProtoReflect.Descriptor instead.
 func (*HealthResponse) Descriptor() ([]byte, []int) {
-	return file_api_v1_jobqueue_proto_rawDescGZIP(), []int{4}
+	return file_api_v1_jobqueue_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *HealthResponse) GetRepeatedNum() int32 {
@@ -614,7 +658,7 @@ type CreateTaskResponse struct {
 
 func (x *CreateTaskResponse) Reset() {
 	*x = CreateTaskResponse{}
-	mi := &file_api_v1_jobqueue_proto_msgTypes[5]
+	mi := &file_api_v1_jobqueue_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -626,7 +670,7 @@ func (x *CreateTaskResponse) String() string {
 func (*CreateTaskResponse) ProtoMessage() {}
 
 func (x *CreateTaskResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_v1_jobqueue_proto_msgTypes[5]
+	mi := &file_api_v1_jobqueue_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -639,7 +683,7 @@ func (x *CreateTaskResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateTaskResponse.ProtoReflect.Descriptor instead.
 func (*CreateTaskResponse) Descriptor() ([]byte, []int) {
-	return file_api_v1_jobqueue_proto_rawDescGZIP(), []int{5}
+	return file_api_v1_jobqueue_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *CreateTaskResponse) GetId() string {
@@ -740,6 +784,154 @@ func (x *CreateTaskResponse) GetCompletedAt() *timestamppb.Timestamp {
 	return nil
 }
 
+type GetTaskByIdResponse struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	Id                string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Status            TaskStatus             `protobuf:"varint,2,opt,name=status,proto3,enum=jobqueue.v1.TaskStatus" json:"status,omitempty"`
+	Priority          TaskPriority           `protobuf:"varint,3,opt,name=priority,proto3,enum=jobqueue.v1.TaskPriority" json:"priority,omitempty"`
+	Type              string                 `protobuf:"bytes,4,opt,name=type,proto3" json:"type,omitempty"`
+	Payload           []byte                 `protobuf:"bytes,5,opt,name=payload,proto3" json:"payload,omitempty"`
+	ShouldRetryNumber uint32                 `protobuf:"varint,6,opt,name=should_retry_number,json=shouldRetryNumber,proto3" json:"should_retry_number,omitempty"`
+	Retries           uint32                 `protobuf:"varint,7,opt,name=retries,proto3" json:"retries,omitempty"`
+	Deadline          *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=deadline,proto3" json:"deadline,omitempty"`
+	DependsOn         []string               `protobuf:"bytes,9,rep,name=depends_on,json=dependsOn,proto3" json:"depends_on,omitempty"`
+	DependencyFor     []string               `protobuf:"bytes,10,rep,name=dependency_for,json=dependencyFor,proto3" json:"dependency_for,omitempty"`
+	CreatedAt         *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt         *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	StartedAt         *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=started_at,json=startedAt,proto3" json:"started_at,omitempty"`
+	CompletedAt       *timestamppb.Timestamp `protobuf:"bytes,14,opt,name=completed_at,json=completedAt,proto3" json:"completed_at,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *GetTaskByIdResponse) Reset() {
+	*x = GetTaskByIdResponse{}
+	mi := &file_api_v1_jobqueue_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetTaskByIdResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetTaskByIdResponse) ProtoMessage() {}
+
+func (x *GetTaskByIdResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_api_v1_jobqueue_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetTaskByIdResponse.ProtoReflect.Descriptor instead.
+func (*GetTaskByIdResponse) Descriptor() ([]byte, []int) {
+	return file_api_v1_jobqueue_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *GetTaskByIdResponse) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *GetTaskByIdResponse) GetStatus() TaskStatus {
+	if x != nil {
+		return x.Status
+	}
+	return TaskStatus_TASK_STATUS_UNSPECIFIED
+}
+
+func (x *GetTaskByIdResponse) GetPriority() TaskPriority {
+	if x != nil {
+		return x.Priority
+	}
+	return TaskPriority_TASK_PRIORITY_UNSPECIFIED
+}
+
+func (x *GetTaskByIdResponse) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
+func (x *GetTaskByIdResponse) GetPayload() []byte {
+	if x != nil {
+		return x.Payload
+	}
+	return nil
+}
+
+func (x *GetTaskByIdResponse) GetShouldRetryNumber() uint32 {
+	if x != nil {
+		return x.ShouldRetryNumber
+	}
+	return 0
+}
+
+func (x *GetTaskByIdResponse) GetRetries() uint32 {
+	if x != nil {
+		return x.Retries
+	}
+	return 0
+}
+
+func (x *GetTaskByIdResponse) GetDeadline() *timestamppb.Timestamp {
+	if x != nil {
+		return x.Deadline
+	}
+	return nil
+}
+
+func (x *GetTaskByIdResponse) GetDependsOn() []string {
+	if x != nil {
+		return x.DependsOn
+	}
+	return nil
+}
+
+func (x *GetTaskByIdResponse) GetDependencyFor() []string {
+	if x != nil {
+		return x.DependencyFor
+	}
+	return nil
+}
+
+func (x *GetTaskByIdResponse) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *GetTaskByIdResponse) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
+func (x *GetTaskByIdResponse) GetStartedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.StartedAt
+	}
+	return nil
+}
+
+func (x *GetTaskByIdResponse) GetCompletedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CompletedAt
+	}
+	return nil
+}
+
 var File_api_v1_jobqueue_proto protoreflect.FileDescriptor
 
 const file_api_v1_jobqueue_proto_rawDesc = "" +
@@ -754,7 +946,9 @@ const file_api_v1_jobqueue_proto_rawDesc = "" +
 	"\x13should_retry_number\x18\x06 \x01(\rR\x11shouldRetryNumber\x126\n" +
 	"\bdeadline\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\bdeadline\x12\x1d\n" +
 	"\n" +
-	"depends_on\x18\b \x03(\tR\tdependsOn\"\xe4\x04\n" +
+	"depends_on\x18\b \x03(\tR\tdependsOn\"$\n" +
+	"\x12GetTaskByIdRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"\xe4\x04\n" +
 	"\x04Task\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12/\n" +
 	"\x06status\x18\x02 \x01(\x0e2\x17.jobqueue.v1.TaskStatusR\x06status\x125\n" +
@@ -802,6 +996,26 @@ const file_api_v1_jobqueue_proto_rawDesc = "" +
 	"updated_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x129\n" +
 	"\n" +
 	"started_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\tstartedAt\x12=\n" +
+	"\fcompleted_at\x18\x0e \x01(\v2\x1a.google.protobuf.TimestampR\vcompletedAt\"\xf3\x04\n" +
+	"\x13GetTaskByIdResponse\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12/\n" +
+	"\x06status\x18\x02 \x01(\x0e2\x17.jobqueue.v1.TaskStatusR\x06status\x125\n" +
+	"\bpriority\x18\x03 \x01(\x0e2\x19.jobqueue.v1.TaskPriorityR\bpriority\x12\x12\n" +
+	"\x04type\x18\x04 \x01(\tR\x04type\x12\x18\n" +
+	"\apayload\x18\x05 \x01(\fR\apayload\x12.\n" +
+	"\x13should_retry_number\x18\x06 \x01(\rR\x11shouldRetryNumber\x12\x18\n" +
+	"\aretries\x18\a \x01(\rR\aretries\x126\n" +
+	"\bdeadline\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\bdeadline\x12\x1d\n" +
+	"\n" +
+	"depends_on\x18\t \x03(\tR\tdependsOn\x12%\n" +
+	"\x0edependency_for\x18\n" +
+	" \x03(\tR\rdependencyFor\x129\n" +
+	"\n" +
+	"created_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x129\n" +
+	"\n" +
+	"started_at\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\tstartedAt\x12=\n" +
 	"\fcompleted_at\x18\x0e \x01(\v2\x1a.google.protobuf.TimestampR\vcompletedAt*\xd9\x01\n" +
 	"\n" +
 	"TaskStatus\x12\x1b\n" +
@@ -824,11 +1038,12 @@ const file_api_v1_jobqueue_proto_rawDesc = "" +
 	"\x18WORKER_STATUS_REGISTERED\x10\x01\x12\x19\n" +
 	"\x15WORKER_STATUS_WORKING\x10\x02\x12\x16\n" +
 	"\x12WORKER_STATUS_DEAD\x10\x03\x12\x1e\n" +
-	"\x1aWORKER_STATUS_UNREGISTERED\x10\x042\xa3\x01\n" +
+	"\x1aWORKER_STATUS_UNREGISTERED\x10\x042\xf5\x01\n" +
 	"\x0fJobQueueService\x12A\n" +
 	"\x06Health\x12\x1a.jobqueue.v1.HealthRequest\x1a\x1b.jobqueue.v1.HealthResponse\x12M\n" +
 	"\n" +
-	"CreateTask\x12\x1e.jobqueue.v1.CreateTaskRequest\x1a\x1f.jobqueue.v1.CreateTaskResponseB\x1aZ\x18./gen/go/api/v1;jobqueueb\x06proto3"
+	"CreateTask\x12\x1e.jobqueue.v1.CreateTaskRequest\x1a\x1f.jobqueue.v1.CreateTaskResponse\x12P\n" +
+	"\vGetTaskById\x12\x1f.jobqueue.v1.GetTaskByIdRequest\x1a .jobqueue.v1.GetTaskByIdResponseB\x1aZ\x18./gen/go/api/v1;jobqueueb\x06proto3"
 
 var (
 	file_api_v1_jobqueue_proto_rawDescOnce sync.Once
@@ -843,46 +1058,57 @@ func file_api_v1_jobqueue_proto_rawDescGZIP() []byte {
 }
 
 var file_api_v1_jobqueue_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_api_v1_jobqueue_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_api_v1_jobqueue_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_api_v1_jobqueue_proto_goTypes = []any{
 	(TaskStatus)(0),               // 0: jobqueue.v1.TaskStatus
 	(TaskPriority)(0),             // 1: jobqueue.v1.TaskPriority
 	(WorkerStatus)(0),             // 2: jobqueue.v1.WorkerStatus
 	(*HealthRequest)(nil),         // 3: jobqueue.v1.HealthRequest
 	(*CreateTaskRequest)(nil),     // 4: jobqueue.v1.CreateTaskRequest
-	(*Task)(nil),                  // 5: jobqueue.v1.Task
-	(*Worker)(nil),                // 6: jobqueue.v1.Worker
-	(*HealthResponse)(nil),        // 7: jobqueue.v1.HealthResponse
-	(*CreateTaskResponse)(nil),    // 8: jobqueue.v1.CreateTaskResponse
-	(*timestamppb.Timestamp)(nil), // 9: google.protobuf.Timestamp
+	(*GetTaskByIdRequest)(nil),    // 5: jobqueue.v1.GetTaskByIdRequest
+	(*Task)(nil),                  // 6: jobqueue.v1.Task
+	(*Worker)(nil),                // 7: jobqueue.v1.Worker
+	(*HealthResponse)(nil),        // 8: jobqueue.v1.HealthResponse
+	(*CreateTaskResponse)(nil),    // 9: jobqueue.v1.CreateTaskResponse
+	(*GetTaskByIdResponse)(nil),   // 10: jobqueue.v1.GetTaskByIdResponse
+	(*timestamppb.Timestamp)(nil), // 11: google.protobuf.Timestamp
 }
 var file_api_v1_jobqueue_proto_depIdxs = []int32{
 	1,  // 0: jobqueue.v1.CreateTaskRequest.priority:type_name -> jobqueue.v1.TaskPriority
-	9,  // 1: jobqueue.v1.CreateTaskRequest.deadline:type_name -> google.protobuf.Timestamp
+	11, // 1: jobqueue.v1.CreateTaskRequest.deadline:type_name -> google.protobuf.Timestamp
 	0,  // 2: jobqueue.v1.Task.status:type_name -> jobqueue.v1.TaskStatus
 	1,  // 3: jobqueue.v1.Task.priority:type_name -> jobqueue.v1.TaskPriority
-	9,  // 4: jobqueue.v1.Task.deadline:type_name -> google.protobuf.Timestamp
-	9,  // 5: jobqueue.v1.Task.created_at:type_name -> google.protobuf.Timestamp
-	9,  // 6: jobqueue.v1.Task.updated_at:type_name -> google.protobuf.Timestamp
-	9,  // 7: jobqueue.v1.Task.started_at:type_name -> google.protobuf.Timestamp
-	9,  // 8: jobqueue.v1.Task.completed_at:type_name -> google.protobuf.Timestamp
+	11, // 4: jobqueue.v1.Task.deadline:type_name -> google.protobuf.Timestamp
+	11, // 5: jobqueue.v1.Task.created_at:type_name -> google.protobuf.Timestamp
+	11, // 6: jobqueue.v1.Task.updated_at:type_name -> google.protobuf.Timestamp
+	11, // 7: jobqueue.v1.Task.started_at:type_name -> google.protobuf.Timestamp
+	11, // 8: jobqueue.v1.Task.completed_at:type_name -> google.protobuf.Timestamp
 	2,  // 9: jobqueue.v1.Worker.status:type_name -> jobqueue.v1.WorkerStatus
 	0,  // 10: jobqueue.v1.CreateTaskResponse.status:type_name -> jobqueue.v1.TaskStatus
 	1,  // 11: jobqueue.v1.CreateTaskResponse.priority:type_name -> jobqueue.v1.TaskPriority
-	9,  // 12: jobqueue.v1.CreateTaskResponse.deadline:type_name -> google.protobuf.Timestamp
-	9,  // 13: jobqueue.v1.CreateTaskResponse.created_at:type_name -> google.protobuf.Timestamp
-	9,  // 14: jobqueue.v1.CreateTaskResponse.updated_at:type_name -> google.protobuf.Timestamp
-	9,  // 15: jobqueue.v1.CreateTaskResponse.started_at:type_name -> google.protobuf.Timestamp
-	9,  // 16: jobqueue.v1.CreateTaskResponse.completed_at:type_name -> google.protobuf.Timestamp
-	3,  // 17: jobqueue.v1.JobQueueService.Health:input_type -> jobqueue.v1.HealthRequest
-	4,  // 18: jobqueue.v1.JobQueueService.CreateTask:input_type -> jobqueue.v1.CreateTaskRequest
-	7,  // 19: jobqueue.v1.JobQueueService.Health:output_type -> jobqueue.v1.HealthResponse
-	8,  // 20: jobqueue.v1.JobQueueService.CreateTask:output_type -> jobqueue.v1.CreateTaskResponse
-	19, // [19:21] is the sub-list for method output_type
-	17, // [17:19] is the sub-list for method input_type
-	17, // [17:17] is the sub-list for extension type_name
-	17, // [17:17] is the sub-list for extension extendee
-	0,  // [0:17] is the sub-list for field type_name
+	11, // 12: jobqueue.v1.CreateTaskResponse.deadline:type_name -> google.protobuf.Timestamp
+	11, // 13: jobqueue.v1.CreateTaskResponse.created_at:type_name -> google.protobuf.Timestamp
+	11, // 14: jobqueue.v1.CreateTaskResponse.updated_at:type_name -> google.protobuf.Timestamp
+	11, // 15: jobqueue.v1.CreateTaskResponse.started_at:type_name -> google.protobuf.Timestamp
+	11, // 16: jobqueue.v1.CreateTaskResponse.completed_at:type_name -> google.protobuf.Timestamp
+	0,  // 17: jobqueue.v1.GetTaskByIdResponse.status:type_name -> jobqueue.v1.TaskStatus
+	1,  // 18: jobqueue.v1.GetTaskByIdResponse.priority:type_name -> jobqueue.v1.TaskPriority
+	11, // 19: jobqueue.v1.GetTaskByIdResponse.deadline:type_name -> google.protobuf.Timestamp
+	11, // 20: jobqueue.v1.GetTaskByIdResponse.created_at:type_name -> google.protobuf.Timestamp
+	11, // 21: jobqueue.v1.GetTaskByIdResponse.updated_at:type_name -> google.protobuf.Timestamp
+	11, // 22: jobqueue.v1.GetTaskByIdResponse.started_at:type_name -> google.protobuf.Timestamp
+	11, // 23: jobqueue.v1.GetTaskByIdResponse.completed_at:type_name -> google.protobuf.Timestamp
+	3,  // 24: jobqueue.v1.JobQueueService.Health:input_type -> jobqueue.v1.HealthRequest
+	4,  // 25: jobqueue.v1.JobQueueService.CreateTask:input_type -> jobqueue.v1.CreateTaskRequest
+	5,  // 26: jobqueue.v1.JobQueueService.GetTaskById:input_type -> jobqueue.v1.GetTaskByIdRequest
+	8,  // 27: jobqueue.v1.JobQueueService.Health:output_type -> jobqueue.v1.HealthResponse
+	9,  // 28: jobqueue.v1.JobQueueService.CreateTask:output_type -> jobqueue.v1.CreateTaskResponse
+	10, // 29: jobqueue.v1.JobQueueService.GetTaskById:output_type -> jobqueue.v1.GetTaskByIdResponse
+	27, // [27:30] is the sub-list for method output_type
+	24, // [24:27] is the sub-list for method input_type
+	24, // [24:24] is the sub-list for extension type_name
+	24, // [24:24] is the sub-list for extension extendee
+	0,  // [0:24] is the sub-list for field type_name
 }
 
 func init() { file_api_v1_jobqueue_proto_init() }
@@ -896,7 +1122,7 @@ func file_api_v1_jobqueue_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_v1_jobqueue_proto_rawDesc), len(file_api_v1_jobqueue_proto_rawDesc)),
 			NumEnums:      3,
-			NumMessages:   6,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
