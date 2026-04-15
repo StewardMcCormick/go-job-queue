@@ -29,8 +29,10 @@ func NewServer(cfg Config, log *zap.Logger, jobQueueHandler pb.JobQueueServiceSe
 	}
 
 	server := grpc.NewServer(
-		grpc.UnaryInterceptor(UnaryRecoveryInterceptor()),
-		grpc.UnaryInterceptor(UnaryRequestIdInterceptor(log)),
+		grpc.ChainUnaryInterceptor(
+			UnaryRequestIdInterceptor(log),
+			CustomRecoveryInterceptor(),
+		),
 	)
 
 	return gRPCServer{

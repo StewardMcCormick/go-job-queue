@@ -9,8 +9,10 @@ import (
 	"github.com/google/uuid"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/peer"
+	"google.golang.org/grpc/status"
 )
 
 func UnaryRequestIdInterceptor(log *zap.Logger) grpc.UnaryServerInterceptor {
@@ -48,20 +50,20 @@ func UnaryRequestIdInterceptor(log *zap.Logger) grpc.UnaryServerInterceptor {
 	}
 }
 
-func UnaryRecoveryInterceptor() grpc.UnaryServerInterceptor {
+func CustomRecoveryInterceptor() grpc.UnaryServerInterceptor {
 	return func(ctx context.Context,
 		req any,
 		info *grpc.UnaryServerInfo,
 		handler grpc.UnaryHandler,
-	) (any, error) {
+	) (resp any, err error) {
 		defer func() {
 			log := appctx.GetLogger(ctx)
 			if r := recover(); r != nil {
 				log.Error(fmt.Sprintf("%v", r))
+				err = status.Errorf(codes.Internal, "internal server error: %v", r)
 			}
 		}()
 
-		resp, err := handler(ctx, req)
-		return resp, err
+		return handler(ctx, req)
 	}
 }
