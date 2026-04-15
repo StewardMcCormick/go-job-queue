@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -27,7 +29,17 @@ type Config struct {
 	ConnectionConfig ConnectionConfig `yaml:"connection_config"`
 }
 
-func NewPool(ctx context.Context, cfg Config) (*pgxpool.Pool, error) {
+type DB interface {
+	Query(ctx context.Context, sql string, args ...any) (pgx.Rows, error)
+	QueryRow(ctx context.Context, sql string, args ...any) pgx.Row
+	Exec(ctx context.Context, sql string, args ...any) (pgconn.CommandTag, error)
+	Begin(ctx context.Context) (pgx.Tx, error)
+	BeginTx(ctx context.Context, txOptions pgx.TxOptions) (pgx.Tx, error)
+	Ping(ctx context.Context) error
+	Close()
+}
+
+func NewPool(ctx context.Context, cfg Config) (DB, error) {
 	dbUrl := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=disable",
 		cfg.User, cfg.Password, cfg.Host, cfg.Port, cfg.DbName,
 	)

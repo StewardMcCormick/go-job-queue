@@ -9,10 +9,11 @@ import (
 	"github.com/StewardMcCormick/go-job-queue/pkg/event_bus/events"
 )
 
-var (
-	ErrNoSubscribers = errors.New("no one subscribers")
-	ErrExitByTimeout = errors.New("exit by timeout")
-)
+var ErrNoSubscribers = errors.New("no one subscribers")
+
+type EventBus interface {
+	Publish(ctx context.Context, event events.Event) error
+}
 
 type eventBus struct {
 	channels map[events.EventType]chan events.Event

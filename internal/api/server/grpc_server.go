@@ -14,6 +14,12 @@ type Config struct {
 	Port string `yaml:"port" env-default:"50051"`
 }
 
+type Server interface {
+	Run() error
+	Stop() error
+	Addr() string
+}
+
 type gRPCServer struct {
 	listener        net.Listener
 	server          *grpc.Server

@@ -30,7 +30,21 @@ type Config struct {
 	Postgres postgres.Config
 }
 
-func InitConfig() (Config, error) {
+var appCfg *Config
+
+func AppConfig() Config {
+	if appCfg == nil {
+		cfg, err := initConfig()
+		if err != nil {
+			panic(err)
+		}
+		appCfg = &cfg
+	}
+
+	return *appCfg
+}
+
+func initConfig() (Config, error) {
 	err := godotenv.Load()
 	if err != nil {
 		return Config{}, err

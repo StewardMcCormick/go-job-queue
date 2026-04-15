@@ -16,22 +16,28 @@ type TaskUseCase interface {
 	GetById(ctx context.Context, id string) (*pb.GetTaskByIdResponse, error)
 }
 
-type JobHandler struct {
+type JobHandler interface {
+	Health(ctx context.Context, req *pb.HealthRequest) (*pb.HealthResponse, error)
+	CreateTask(ctx context.Context, req *pb.CreateTaskRequest) (*pb.CreateTaskResponse, error)
+	GetTaskById(ctx context.Context, req *pb.GetTaskByIdRequest) (*pb.GetTaskByIdResponse, error)
+}
+
+type jobHandler struct {
 	pb.UnimplementedJobQueueServiceServer
 	taskUseCase TaskUseCase
 }
 
-func NewHandler(taskUseCase TaskUseCase) *JobHandler {
-	return &JobHandler{
+func NewHandler(taskUseCase TaskUseCase) *jobHandler {
+	return &jobHandler{
 		taskUseCase: taskUseCase,
 	}
 }
 
-func (h *JobHandler) Health(ctx context.Context, req *pb.HealthRequest) (*pb.HealthResponse, error) {
+func (h *jobHandler) Health(ctx context.Context, req *pb.HealthRequest) (*pb.HealthResponse, error) {
 	return &pb.HealthResponse{RepeatedNum: req.Num}, nil
 }
 
-func (h *JobHandler) CreateTask(ctx context.Context, req *pb.CreateTaskRequest) (*pb.CreateTaskResponse, error) {
+func (h *jobHandler) CreateTask(ctx context.Context, req *pb.CreateTaskRequest) (*pb.CreateTaskResponse, error) {
 	if err := h.validateCreateTaskRequest(req); err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
@@ -47,7 +53,7 @@ func (h *JobHandler) CreateTask(ctx context.Context, req *pb.CreateTaskRequest) 
 	return response, nil
 }
 
-func (h *JobHandler) validateCreateTaskRequest(req *pb.CreateTaskRequest) error {
+func (h *jobHandler) validateCreateTaskRequest(req *pb.CreateTaskRequest) error {
 	if req.Priority == pb.TaskPriority_TASK_PRIORITY_UNSPECIFIED {
 		return fmt.Errorf(
 			`%w - task priority must be one of:
@@ -63,7 +69,7 @@ func (h *JobHandler) validateCreateTaskRequest(req *pb.CreateTaskRequest) error 
 	return nil
 }
 
-func (h *JobHandler) GetTaskById(ctx context.Context, req *pb.GetTaskByIdRequest) (*pb.GetTaskByIdResponse, error) {
+func (h *jobHandler) GetTaskById(ctx context.Context, req *pb.GetTaskByIdRequest) (*pb.GetTaskByIdResponse, error) {
 	resp, err := h.taskUseCase.GetById(ctx, req.Id)
 	if err != nil {
 		if errors.Is(err, errs.ErrNotFound) {

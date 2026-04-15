@@ -25,6 +25,11 @@ type TaskService interface {
 	GetById(ctx context.Context, id string) (*pb.Task, error)
 }
 
+type TaskUseCase interface {
+	GetById(ctx context.Context, id string) (*pb.GetTaskByIdResponse, error)
+	Create(ctx context.Context, req *pb.CreateTaskRequest) (*pb.CreateTaskResponse, error)
+}
+
 type taskUseCase struct {
 	taskService TaskService
 }

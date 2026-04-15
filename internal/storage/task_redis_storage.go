@@ -14,6 +14,14 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
+type TaskRedisStorage interface {
+	Save(ctx context.Context, task *pb.Task) error
+	Exists(ctx context.Context, id string) (bool, error)
+	Remove(ctx context.Context, id string) error
+	UpdateDependencyFor(ctx context.Context, dependencyId, taskId string) error
+	GetById(ctx context.Context, id string) (*pb.Task, error)
+}
+
 type taskRedisStorage struct {
 	client *redis.Client
 }

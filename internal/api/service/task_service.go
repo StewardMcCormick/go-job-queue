@@ -27,6 +27,14 @@ type PostgresStorage interface {
 	GetById(ctx context.Context, id string) ([]*pb.Task, error)
 }
 
+type TaskService interface {
+	PublishCreateEvent(ctx context.Context, req *pb.Task) error
+	SaveInRedis(ctx context.Context, req *pb.Task) error
+	DeleteFromRedis(ctx context.Context, id string) error
+	ValidateDependencies(ctx context.Context, req *pb.Task) error
+	GetById(ctx context.Context, id string) (*pb.Task, error)
+}
+
 type taskService struct {
 	eventBus EventBus
 	redis    RedisStorage

@@ -6,14 +6,22 @@ import (
 
 	pb "github.com/StewardMcCormick/go-job-queue/gen/go/api/v1"
 	"github.com/jackc/pgx/v5"
-	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/jackc/pgx/v5/pgconn"
 )
 
-type taskPostgresStorage struct {
-	pool *pgxpool.Pool
+type TaskBD interface {
+	Exec(ctx context.Context, sql string, args ...any) (pgconn.CommandTag, error)
 }
 
-func NewTaskPostgresStorage(pool *pgxpool.Pool) *taskPostgresStorage {
+type TaskPostgresStorage interface {
+	GetById(ctx context.Context, id string) ([]*pb.Task, error)
+}
+
+type taskPostgresStorage struct {
+	pool TaskBD
+}
+
+func NewTaskPostgresStorage(pool TaskBD) *taskPostgresStorage {
 	return &taskPostgresStorage{
 		pool: pool,
 	}
