@@ -1,13 +1,16 @@
-package main
+package app
 
 import (
+	"context"
+	"time"
+
 	"github.com/StewardMcCormick/go-job-queue/config"
 	"github.com/StewardMcCormick/go-job-queue/internal/api/server"
 	"go.uber.org/zap"
 )
 
 type App struct {
-	deps   *diContainer
+	deps   DIContainer
 	server server.Server
 	logger *zap.Logger
 }
@@ -47,9 +50,18 @@ func (a *App) initServer() {
 }
 
 func (a *App) Run() {
-	if err := a.server.Run(); err != nil {
+	go func() {
+		if err := a.server.Run(); err != nil {
+			panic(err)
+		}
+	}()
+}
+
+func (a *App) Shutdown() {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	if err := a.deps.Close(ctx); err != nil {
 		panic(err)
 	}
 }
-
-func (a *App) Shutdown() {}

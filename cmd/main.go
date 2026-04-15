@@ -4,15 +4,17 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/StewardMcCormick/go-job-queue/cmd/app"
 )
 
 func main() {
-	app := NewApp()
+	a := app.NewApp()
 
-	app.Run()
+	a.Run()
 
 	sig := make(chan os.Signal, 2)
 	signal.Notify(sig, syscall.SIGINT, syscall.SIGTERM)
 	<-sig
-	app.Shutdown()
+	a.Shutdown()
 }

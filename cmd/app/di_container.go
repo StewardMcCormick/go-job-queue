@@ -1,8 +1,10 @@
-package main
+package app
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"syscall"
 	"time"
 
 	"github.com/StewardMcCormick/go-job-queue/config"
@@ -19,7 +21,23 @@ import (
 	"go.uber.org/zap"
 )
 
+type DIContainer interface {
+	Db() postgres.DB
+	RedisClient(db int) *redis.Client
+	EventBus() bus.EventBus
+	Logger() *zap.Logger
+	TaskRedisStorage() storage.TaskRedisStorage
+	TaskPostgresStorage() storage.TaskPostgresStorage
+	TaskService() service.TaskService
+	TaskUseCase() uc.TaskUseCase
+	Handlers() pb.JobQueueServiceServer
+
+	Close(ctx context.Context) error
+}
+
 type diContainer struct {
+	closer *closer
+
 	db          postgres.DB
 	redisClient *redis.Client
 	eventBus    bus.EventBus
@@ -38,9 +56,10 @@ type diContainer struct {
 func NewDIContainer() *diContainer {
 	di := &diContainer{}
 
-	di.Logger()
+	di.closer = NewCloser()
+	di.closer.log = di.Logger()
 
-	return &diContainer{}
+	return di
 }
 
 func (d *diContainer) Db() postgres.DB {
@@ -61,6 +80,11 @@ func (d *diContainer) Db() postgres.DB {
 		d.logger.Info(fmt.Sprintf("[START] DB connection initialization completed, duration: %d ms",
 			time.Since(start).Milliseconds()),
 		)
+
+		d.closer.Add("DB", func(ctx context.Context) error {
+			d.db.Close()
+			return nil
+		})
 	}
 
 	return d.db
@@ -81,6 +105,10 @@ func (d *diContainer) RedisClient(db int) *redis.Client {
 		d.logger.Info(fmt.Sprintf("[START] Redis connection initialization completed, duration: %d ms",
 			time.Since(start).Milliseconds()),
 		)
+
+		d.closer.Add("Redis", func(ctx context.Context) error {
+			return d.redisClient.Close()
+		})
 	}
 
 	return d.redisClient
@@ -108,6 +136,14 @@ func (d *diContainer) Logger() *zap.Logger {
 		}
 
 		d.logger = l
+
+		d.closer.Add("Logger", func(ctx context.Context) error {
+			if err := l.Sync(); !errors.Is(err, syscall.ENOTTY) && !errors.Is(err, syscall.EINVAL) && !errors.Is(err, syscall.EBADF) {
+				return err
+			}
+
+			return nil
+		})
 	}
 
 	return d.logger
@@ -151,4 +187,8 @@ func (d *diContainer) Handlers() pb.JobQueueServiceServer {
 	}
 
 	return d.handlers
+}
+
+func (d *diContainer) Close(ctx context.Context) error {
+	return d.closer.Close(ctx)
 }
